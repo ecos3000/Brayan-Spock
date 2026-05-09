@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados | ADAN_CB90 Social Proof</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Global Animations -->
+    <script src="/animations.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-cyan': '#ff6b00',
+                        'neon-pink': '#ff00c1',
+                        'cyber-purple': 'rgba(123, 97, 255, 0.12)',
+                        'cyber-dark': '#050508',
+                        'cyber-black': '#0c0c14',
+                    },
+                    fontFamily: {
+                        sans: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050508;
+            color: white;
+            cursor: none; /* Managed by animations.js */
+        }
+        .noise-bg {
+            position: relative;
+            background-color: #11111a;
+        }
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+        }
+        .neon-border {
+            border: 1px solid rgba(255, 107, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .neon-border:hover {
+            border: 1px solid rgba(255, 107, 0, 1);
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.2);
+        }
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Lightbox styles */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            cursor: zoom-out;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            box-shadow: 0 0 50px rgba(255, 107, 0, 0.2);
+        }
+        .testimonios-bg-custom {
+            background-image: linear-gradient(to bottom, rgba(5, 5, 8, 0.9), rgba(5, 5, 8, 0.95)), url('/testimonios_bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="selection:bg-neon-cyan/30">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-[100] py-4 glass-nav">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="/" class="font-mono text-xl font-bold tracking-tighter text-neon-cyan active-link">ADAN_CB90</a>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">INICIO</a>
+                <a href="/servicios.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SERVICIOS</a>
+                <a href="/resultados.html" class="font-mono text-[10px] tracking-widest text-white border-b border-neon-cyan pb-1">RESULTADOS</a>
+                <a href="/blog.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">BLOG</a>
+                <a href="/sobre-mi.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SOBRE MÍ</a>
+            </div>
+            <a href="/#contacto" class="font-mono text-[10px] tracking-widest border border-neon-cyan px-4 py-2 hover:bg-neon-cyan hover:text-black transition-all">TRABAJEMOS</a>
+        </div>
+    </nav>
+
+    <!-- Metrics Hero -->
+    <section class="relative pt-40 pb-32 overflow-hidden border-b border-white/5" id="hero-section">
+        <div class="absolute inset-0 -z-10 bg-cyber-dark">
+            <div id="hero-parallax" class="absolute inset-0 w-full h-[120%] -top-[10%]">
+                <video autoPlay loop muted playsInline class="w-full h-full object-cover opacity-95">
+                    <source src="https://ik.imagekit.io/x8axvbbz3/0508%20(2).mp4?updatedAt=1778287211210" type="video/mp4">
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-cyber-dark/10"></div>
+        </div>
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center reveal pt-20">
+            <div class="text-left mb-12">
+                <h1 class="font-sans text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6" data-scramble>Impacto Real</h1>
+                <p class="font-mono text-neon-cyan text-sm tracking-[0.3em] uppercase opacity-80">Data_Visual_Engine_Active</p>
+            </div>
+            <div class="hidden lg:block"></div>
+        </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="flex flex-col items-center text-center reveal">
+                    <span class="font-sans text-6xl font-black text-white glow-text mb-2">19K+</span>
+                    <span class="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em]">Seguidores Orgánicos</span>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="transition-delay: 100ms;">
+                    <span class="font-sans text-6xl font-black text-white glow-text mb-2">6.6M+</span>
+                    <span class="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em]">Vistas Video Único</span>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="transition-delay: 200ms;">
+                    <span class="font-sans text-6xl font-black text-white glow-text mb-2">8.5M+</span>
+                    <span class="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em]">Vistas Totales</span>
+                </div>
+                <div class="flex flex-col items-center text-center reveal" style="transition-delay: 300ms;">
+                    <span class="font-sans text-6xl font-black text-white glow-text mb-2">195+</span>
+                    <span class="font-mono text-[10px] text-white/30 uppercase tracking-[0.2em]">Piezas Creadas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshot Grid -->
+    <section class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="mb-16 reveal">
+                <h2 class="font-sans text-4xl font-bold uppercase tracking-tighter mb-4">Evidencia Gráfica</h2>
+                <div class="h-px w-20 bg-neon-cyan"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Screenshot placeholders -->
+                <div class="aspect-[9/16] noise-bg rounded-xl neon-border overflow-hidden cursor-zoom-in group reveal" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="font-mono text-[10px] bg-black/80 px-3 py-1 border border-neon-cyan text-neon-cyan">VER MÉTRICA</span>
+                    </div>
+                </div>
+                <div class="aspect-[9/16] noise-bg rounded-xl neon-border overflow-hidden cursor-zoom-in group reveal" style="transition-delay: 50ms;" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1611162616475-46b635cbca86?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="font-mono text-[10px] bg-black/80 px-3 py-1 border border-neon-cyan text-neon-cyan">VER MÉTRICA</span>
+                    </div>
+                </div>
+                <div class="aspect-[9/16] noise-bg rounded-xl neon-border overflow-hidden cursor-zoom-in group reveal" style="transition-delay: 100ms;" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="font-mono text-[10px] bg-black/80 px-3 py-1 border border-neon-cyan text-neon-cyan">VER MÉTRICA</span>
+                    </div>
+                </div>
+                <div class="aspect-[9/16] noise-bg rounded-xl neon-border overflow-hidden cursor-zoom-in group reveal" style="transition-delay: 150ms;" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1611606063065-ee7946f0787a?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="font-mono text-[10px] bg-black/80 px-3 py-1 border border-neon-cyan text-neon-cyan">VER MÉTRICA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="mt-12 font-mono text-[10px] text-white/20 uppercase tracking-widest text-center">
+                Protocolo: Datos extraídos directamente de Creators Studio e Insights de Pro.
+            </p>
+        </div>
+    </section>
+
+    <!-- Videos Highlight -->
+    <section class="py-32 border-y border-white/5 bg-white/[0.01]">
+        <div class="container mx-auto px-6">
+            <h2 class="font-sans text-4xl font-bold uppercase tracking-tighter mb-16 reveal">Highlights Virales</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Large Video -->
+                <div class="lg:col-span-2 aspect-video noise-bg border border-white/10 rounded-2xl overflow-hidden reveal">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- Vertical Small Videos -->
+                <div class="grid grid-rows-2 gap-8">
+                    <div class="aspect-square lg:aspect-auto noise-bg border border-white/10 rounded-2xl overflow-hidden reveal" style="transition-delay: 100ms;">
+                        <div class="w-full h-full flex items-center justify-center text-white/20 font-mono text-xs uppercase">TikTok_Viral_Sample_01</div>
+                    </div>
+                    <div class="aspect-square lg:aspect-auto noise-bg border border-white/10 rounded-2xl overflow-hidden reveal" style="transition-delay: 200ms;">
+                        <div class="w-full h-full flex items-center justify-center text-white/20 font-mono text-xs uppercase">Instagram_Reel_Viral_02</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="relative py-32 overflow-hidden" id="testimonials-section">
+        <div class="absolute inset-0 -z-10 bg-[#0c0c14]">
+            <div id="testimonials-parallax" class="absolute inset-0 w-full h-[120%] -top-[10%]">
+                <video autoPlay loop muted playsInline class="w-full h-full object-cover opacity-100">
+                    <source src="https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-[#0c0c14]/10"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="font-sans text-4xl font-bold uppercase tracking-tighter mb-20 text-center reveal">Voces de Confianza</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Testimonial 1 -->
+                <div class="flex flex-col reveal">
+                    <div class="w-16 h-16 rounded-full overflow-hidden mb-6 border-2 border-neon-cyan">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-mono text-sm text-white/80 leading-relaxed mb-6 italic">
+                        "Después de trabajar con Adán, mi cuenta creció de 500 a 5,000 seguidores en solo un mes. Su visión estratégica de la IA es de otro nivel."
+                    </p>
+                    <div class="mt-auto">
+                        <span class="block font-sans font-bold text-lg uppercase">Carlos Ruiz</span>
+                        <span class="block font-mono text-[10px] text-neon-cyan uppercase tracking-widest">E-commerce Founder</span>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="flex flex-col reveal" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 rounded-full overflow-hidden mb-6 border-2 border-neon-pink">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-mono text-sm text-white/80 leading-relaxed mb-6 italic">
+                        "La automatización de procesos mediante IA que implementó Adán nos ahorra unas 15 horas de trabajo manual a la semana. Eficiencia pura."
+                    </p>
+                    <div class="mt-auto">
+                        <span class="block font-sans font-bold text-lg uppercase">Elena Gómez</span>
+                        <span class="block font-mono text-[10px] text-neon-pink uppercase tracking-widest">Digital Agency CEO</span>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="flex flex-col reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 rounded-full overflow-hidden mb-6 border-2 border-white/20">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-mono text-sm text-white/80 leading-relaxed mb-6 italic">
+                        "El kit de herramientas IA y la consultoría me permitieron posicionarme como experto en LinkedIn en tiempo récord. Totalmente recomendado."
+                    </p>
+                    <div class="mt-auto">
+                        <span class="block font-sans font-bold text-lg uppercase">Mikel Art</span>
+                        <span class="block font-mono text-[10px] text-white/40 uppercase tracking-widest">Tech Architect</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands -->
+    <section class="py-32 border-t border-white/5 opacity-50 contrast-less">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap items-center justify-center gap-12 md:gap-24 grayscale opacity-40">
+                <span class="font-sans text-2xl font-black tracking-tighter uppercase whitespace-nowrap">Brand_Sync</span>
+                <span class="font-sans text-3xl font-black tracking-tighter uppercase whitespace-nowrap">AI_CORE_LABS</span>
+                <span class="font-sans text-2xl font-black tracking-tighter uppercase whitespace-nowrap">NEXT_GEN_MEDIA</span>
+                <span class="font-sans text-3xl font-black tracking-tighter uppercase whitespace-nowrap">CYBER_PROTOCOLS</span>
+                <span class="font-sans text-2xl font-black tracking-tighter uppercase whitespace-nowrap">TECH_VANGUARD</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+            © 2026 ADAN_CB90 · PROTOCOL_SERVICES_ACTIVE
+        </p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Zoomed Metric">
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/yournumber" target="_blank" class="fixed bottom-10 right-10 w-16 h-16 bg-neon-cyan text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,245,196,0.5)] active:scale-95 transition-transform z-[1000] magnetic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    </a>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(el) {
+            const imgSrc = el.querySelector('img').src;
+            lightboxImg.src = imgSrc;
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Parallax Logic
+        window.addEventListener('scroll', () => {
+            // Hero Parallax
+            const heroParallax = document.getElementById('hero-parallax');
+            if (heroParallax) {
+                const scrolled = window.pageYOffset;
+                heroParallax.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+
+            // Testimonials Parallax
+            const testimonialsSection = document.getElementById('testimonials-section');
+            const testimonialsParallax = document.getElementById('testimonials-parallax');
+            if (testimonialsSection && testimonialsParallax) {
+                const rect = testimonialsSection.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+                if (rect.top < viewHeight && rect.bottom > 0) {
+                    const scrollProgress = (viewHeight - rect.top) / (viewHeight + rect.height);
+                    const offset = (scrollProgress - 0.5) * 100; // Shifting +/- 50px
+                    testimonialsParallax.style.transform = `translateY(${offset}px)`;
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

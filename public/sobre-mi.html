@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Mí | ADAN_CB90 IA Architect</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Global Animations -->
+    <script src="/animations.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-cyan': '#ff6b00',
+                        'neon-pink': '#ff00c1',
+                        'cyber-purple': '#7b61ff',
+                        'cyber-dark': '#050508',
+                        'cyber-black': '#0c0c14',
+                    },
+                    fontFamily: {
+                        sans: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050508;
+            color: white;
+            cursor: none; /* Managed by animations.js */
+        }
+        .noise-bg {
+            position: relative;
+            background-color: #11111a;
+        }
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 1024px) {
+            .editorial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .vertical-timeline {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ff6b00, transparent);
+            transform: translateX(-50%);
+        }
+        .timeline-step {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff6b00;
+            border-radius: 50%;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        .timeline-step:hover .timeline-dot {
+            transform: scale(2);
+            box-shadow: 0 0 15px #ff6b00;
+        }
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .accent-photo {
+            filter: grayscale(1);
+            transition: filter 0.5s ease;
+        }
+        .accent-photo-container:hover .accent-photo {
+            filter: grayscale(0.5) sepia(0.2) hue-rotate(120deg) brightness(0.8);
+        }
+        .counter-val {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="selection:bg-neon-cyan/30">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-[100] py-4 glass-nav">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="/" class="font-mono text-xl font-bold tracking-tighter text-neon-cyan active-link">ADAN_CB90</a>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">INICIO</a>
+                <a href="/servicios.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SERVICIOS</a>
+                <a href="/resultados.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">RESULTADOS</a>
+                <a href="/blog.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">BLOG</a>
+                <a href="/sobre-mi.html" class="font-mono text-[10px] tracking-widest text-white border-b border-neon-cyan pb-1">SOBRE MÍ</a>
+            </div>
+            <a href="/#contacto" class="font-mono text-[10px] tracking-widest border border-neon-cyan px-4 py-2 hover:bg-neon-cyan hover:text-black transition-all">TRABAJEMOS</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-20 overflow-hidden" id="sobre-mi-hero">
+        <div class="absolute inset-0 -z-10 bg-cyber-dark">
+            <div id="sobre-mi-parallax" class="absolute inset-0 w-full h-[120%] -top-[10%]">
+                <video autoPlay loop muted playsInline class="w-full h-full object-cover opacity-95">
+                    <source src="https://ik.imagekit.io/x8axvbbz3/0508%20(2).mp4?updatedAt=1778287211210" type="video/mp4">
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-cyber-dark/10"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-purple/20 blur-[120px] rounded-full opacity-10"></div>
+        </div>
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center min-h-[40vh] reveal pt-20">
+            <div class="text-left">
+                <h1 class="font-sans text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6" data-scramble>Sobre Mí</h1>
+                <p class="font-mono text-neon-cyan text-xs tracking-[0.3em] uppercase opacity-80 max-w-lg">
+                    Protocolo de Identidad: ADAN_CB90
+                </p>
+            </div>
+            <div class="hidden lg:block"></div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 pb-32">
+        
+        <div class="editorial-grid">
+            
+            <!-- Left Side: Timeline (Desktop Only) -->
+            <aside class="hidden lg:block vertical-timeline">
+                <div class="relative w-full h-[600px]">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-step"><div class="timeline-dot"></div></div>
+                    <div class="timeline-step"><div class="timeline-dot"></div></div>
+                    <div class="timeline-step"><div class="timeline-dot"></div></div>
+                    <div class="timeline-step"><div class="timeline-dot"></div></div>
+                </div>
+            </aside>
+
+            <!-- Right Side: Story Content -->
+            <div class="max-w-4xl">
+                
+                <!-- Section 1: The Start -->
+                <section class="mb-48 reveal">
+                    <span class="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-8 block">01. EL INICIO</span>
+                    <h2 class="font-sans text-5xl md:text-8xl font-black tracking-tighter uppercase leading-none mb-12">
+                        No empecé como <span class="text-white/40">experto.</span><br>
+                        Empecé <span class="text-neon-cyan">curioso.</span>
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div class="accent-photo-container relative rounded-2xl overflow-hidden border border-white/5">
+                            <img src="/adan_retrato.jpg" alt="Adán" class="accent-photo w-full aspect-square object-cover">
+                            <div class="absolute inset-0 bg-neon-cyan/10 mix-blend-overlay"></div>
+                        </div>
+                        <div class="font-mono text-sm text-white/50 space-y-6 leading-relaxed">
+                            <p>Me llamo Adán, tengo 30 años y escribo mi historia desde La Habana, Cuba.</p>
+                            <p>Siempre me fascinó la tecnología, pero cuando la IA Generativa explotó ante nuestros ojos, no lo vi como una amenaza — lo vi como la herramienta más poderosa que jamás existió.</p>
+                            <p>Desde una isla donde los recursos a veces escasean, la IA se convirtió en mi multiplicador de oportunidades.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Key Moment -->
+                <section class="mb-48 reveal">
+                    <span class="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-8 block">02. EL MOMENTO CLAVE</span>
+                    <h2 class="font-sans text-5xl md:text-7xl font-black tracking-tighter uppercase leading-tight mb-12">
+                        El video que <br><span class="text-white/40">cambió todo</span>
+                    </h2>
+                    <div class="noise-bg border border-white/5 p-12 rounded-3xl relative overflow-hidden">
+                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-neon-cyan/5 blur-[100px]"></div>
+                        <p class="font-mono text-lg text-white/80 leading-relaxed mb-8 max-w-2xl">
+                            Un experimento sobre IA llegó a <span class="text-neon-cyan underline decoration-white/20 underline-offset-8">6,600,000 personas</span> en una sola plataforma.
+                        </p>
+                        <p class="font-mono text-sm text-white/40 leading-relaxed max-w-xl">
+                            Ese día entendí que el conocimiento que estaba acumulando tenía el poder de ayudar a miles de personas a optimizar su tiempo y su creatividad.
+                        </p>
+                        <div class="mt-12 flex flex-wrap gap-8">
+                            <div class="flex flex-col">
+                                <span class="font-sans text-5xl font-black text-white counter-val" data-target="6.6">6.6M</span>
+                                <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Vistas Únicas</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-sans text-5xl font-black text-white counter-val" data-target="19">19K</span>
+                                <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Seguidores Orgánicos</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Mission -->
+                <section class="mb-48 reveal">
+                    <span class="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-8 block">03. LA MISIÓN</span>
+                    <div class="flex flex-col md:flex-row gap-12 md:items-end">
+                        <h2 class="font-sans text-5xl md:text-8xl font-black tracking-tighter uppercase leading-none flex-1">
+                            No vendo <span class="text-white/40">humo.</span><br>
+                            Vendo <span class="text-cyber-purple">resultados.</span>
+                        </h2>
+                        <div class="w-20 h-20 bg-neon-cyan rounded-full flex items-center justify-center shrink-0 magnetic">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        </div>
+                    </div>
+                    <p class="mt-12 font-mono text-xl text-white/60 leading-relaxed max-w-2xl">
+                        Mi misión es simple: que cualquier persona o negocio pueda usar la IA sin necesidad de saber programar una sola línea de código.
+                    </p>
+                    <p class="mt-8 font-mono text-sm text-white/30 leading-relaxed max-w-lg">
+                        Estoy democratizando el acceso a la tecnología más avanzada, desde donde sea que me encuentres. Si yo puedo hacerlo desde La Habana, tú puedes hacerlo desde cualquier lugar.
+                    </p>
+                </section>
+
+                <!-- Section 4: Metrics Grid -->
+                <section class="mb-48 reveal">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        <div class="flex flex-col p-6 border border-white/5 noise-bg rounded-2xl">
+                            <span class="font-sans text-4xl font-black text-neon-cyan">+195</span>
+                            <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Posts IA</span>
+                        </div>
+                        <div class="flex flex-col p-6 border border-white/5 noise-bg rounded-2xl">
+                            <span class="font-sans text-4xl font-black text-neon-cyan">03</span>
+                            <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Años Exp</span>
+                        </div>
+                        <div class="flex flex-col p-6 border border-white/5 noise-bg rounded-2xl">
+                            <span class="font-sans text-4xl font-black text-neon-cyan">100%</span>
+                            <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Orgánico</span>
+                        </div>
+                        <div class="flex flex-col p-6 border border-white/5 noise-bg rounded-2xl">
+                            <span class="font-sans text-4xl font-black text-neon-cyan">∞</span>
+                            <span class="font-mono text-[10px] text-white/20 uppercase tracking-widest mt-2">Potencial</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Social Media -->
+                <section class="reveal">
+                    <span class="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-8 block">04. CONECTA</span>
+                    <h2 class="font-sans text-4xl font-black uppercase mb-12">Sígueme en el día a día</h2>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <a href="#" class="flex-1 p-8 border border-white/5 hover:border-neon-cyan/30 transition-all group rounded-2xl flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="font-sans text-2xl font-bold">INSTAGRAM</span>
+                                <span class="font-mono text-xs text-white/20">@adan_cb90</span>
+                            </div>
+                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-neon-cyan group-hover:text-black transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                            </div>
+                        </a>
+                        <a href="#" class="flex-1 p-8 border border-white/5 hover:border-neon-pink/30 transition-all group rounded-2xl flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="font-sans text-2xl font-bold">TIKTOK</span>
+                                <span class="font-mono text-xs text-white/20">@adan_cb90</span>
+                            </div>
+                            <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center group-hover:bg-neon-pink group-hover:text-black transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+            © 2026 ADAN_CB90 · PROTOCOL_SERVICES_ACTIVE
+        </p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/yournumber" target="_blank" class="fixed bottom-10 right-10 w-16 h-16 bg-neon-cyan text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,245,196,0.5)] active:scale-95 transition-transform z-[1000] magnetic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    </a>
+
+    <script>
+        // Parallax Logic
+        window.addEventListener('scroll', () => {
+            const parallax = document.getElementById('sobre-mi-parallax');
+            if (parallax) {
+                const scrolled = window.pageYOffset;
+                parallax.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+        });
+    </script>
+
+</body>
+</html>

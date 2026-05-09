@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios | ADAN_CB90 IA Architect</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Global Animations -->
+    <script src="/animations.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-cyan': '#ff6b00',
+                        'neon-pink': '#ff00c1',
+                        'cyber-purple': 'rgba(123, 97, 255, 0.12)',
+                        'cyber-dark': '#050508',
+                        'cyber-black': '#0c0c14',
+                    },
+                    fontFamily: {
+                        sans: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050508;
+            color: white;
+            cursor: none; /* Managed by animations.js */
+        }
+        .noise-bg {
+            position: relative;
+            background-color: #11111a;
+        }
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .faq-item.active .faq-content {
+            max-height: 200px;
+            padding-top: 1rem;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hero-bg-custom {
+            background-image: linear-gradient(to bottom, rgba(5, 5, 8, 0.8), rgba(5, 5, 8, 0.9)), url('/servicios_bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="selection:bg-neon-cyan/30">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-[100] py-4 glass-nav">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="/" class="font-mono text-xl font-bold tracking-tighter text-neon-cyan active-link">ADAN_CB90</a>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">INICIO</a>
+                <a href="/servicios.html" class="font-mono text-[10px] tracking-widest text-white border-b border-neon-cyan pb-1">SERVICIOS</a>
+                <a href="/resultados.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">RESULTADOS</a>
+                <a href="/blog.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">BLOG</a>
+                <a href="/sobre-mi.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SOBRE MÍ</a>
+            </div>
+            <a href="/#contacto" class="font-mono text-[10px] tracking-widest border border-neon-cyan px-4 py-2 hover:bg-neon-cyan hover:text-black transition-all">TRABAJEMOS</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-20 overflow-hidden" id="hero-section">
+        <div class="absolute inset-0 -z-10 bg-cyber-dark">
+            <div id="hero-parallax" class="absolute inset-0 w-full h-[120%] -top-[10%]">
+                <video autoPlay loop muted playsInline class="w-full h-full object-cover opacity-100">
+                    <source src="https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-cyber-dark/10"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 blur-[120px] rounded-full"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyber-purple blur-[120px] rounded-full opacity-10"></div>
+        </div>
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 items-center min-h-[40vh] reveal pt-20">
+            <div class="text-left">
+                <h1 class="font-sans text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6" data-scramble>Mis Servicios</h1>
+                <p class="font-mono text-neon-cyan text-sm tracking-[0.3em] uppercase opacity-80 max-w-lg">
+                    Hago que la IA trabaje para tu negocio
+                </p>
+            </div>
+            <div class="hidden lg:block"></div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Service 1 -->
+                <div class="reveal perspective-1000" style="transition-delay: 0ms;">
+                    <div class="tilt-card noise-bg border border-white/5 p-8 rounded-2xl h-full flex flex-col group hover:border-neon-cyan/30 transition-colors">
+                        <div class="w-12 h-12 mb-6 bg-neon-cyan/10 flex items-center justify-center rounded-xl border border-neon-cyan/20">
+                            <span class="text-neon-cyan text-xl">🤖</span>
+                        </div>
+                        <h3 class="font-sans text-2xl font-bold mb-4 uppercase tracking-tighter">Contenido IA <br> Completo</h3>
+                        <p class="font-mono text-xs text-white/50 mb-6 leading-relaxed">
+                            Para negocios que quieren presencia digital sólida sin contratar un equipo de producción costoso.
+                        </p>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-cyan">✓</span> 15 Reels/TikToks al mes
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-cyan">✓</span> Guiones Optimizados
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-cyan">✓</span> Edición Cinematográfica
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-cyan">✓</span> Estrategia de Hashtags
+                            </li>
+                        </ul>
+                        <div class="pt-6 border-t border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-neon-cyan text-sm">Desde $150/mes</span>
+                            <a href="#" class="font-mono text-[10px] border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">QUIERO ESTO</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="reveal perspective-1000" style="transition-delay: 150ms;">
+                    <div class="tilt-card noise-bg border border-white/5 p-8 rounded-2xl h-full flex flex-col group hover:border-neon-cyan/30 transition-colors">
+                        <div class="w-12 h-12 mb-6 bg-neon-pink/10 flex items-center justify-center rounded-xl border border-neon-pink/20">
+                            <span class="text-neon-pink text-xl">🎯</span>
+                        </div>
+                        <h3 class="font-sans text-2xl font-bold mb-4 uppercase tracking-tighter">Consultoría <br> Marca Personal</h3>
+                        <p class="font-mono text-xs text-white/50 mb-6 leading-relaxed">
+                            Estrategia 1:1 para emprendedores que buscan posicionarse como referentes en su industria.
+                        </p>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-pink">✓</span> 2h Sesión Directa
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-pink">✓</span> Roadmap de IA Propio
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-pink">✓</span> Kit de Herramientas
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-neon-pink">✓</span> Soporte 30 días
+                            </li>
+                        </ul>
+                        <div class="pt-6 border-t border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-neon-cyan text-sm">Desde $80/sesión</span>
+                            <a href="#" class="font-mono text-[10px] border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">AGENDAR SESIÓN</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="reveal perspective-1000" style="transition-delay: 300ms;">
+                    <div class="tilt-card noise-bg border border-white/5 p-8 rounded-2xl h-full flex flex-col group hover:border-neon-cyan/30 transition-colors">
+                        <div class="w-12 h-12 mb-6 bg-cyber-purple flex items-center justify-center rounded-xl border border-white/10">
+                            <span class="text-white text-xl">⚡</span>
+                        </div>
+                        <h3 class="font-sans text-2xl font-bold mb-4 uppercase tracking-tighter">Automatización <br> Empresarial IA</h3>
+                        <p class="font-mono text-xs text-white/50 mb-6 leading-relaxed">
+                            Transforma tus procesos mediante agentes inteligentes. Para empresas que buscan eficiencia real.
+                        </p>
+                        <ul class="space-y-3 mb-8 flex-1">
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-white/40">✓</span> Análisis de Procesos
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-white/40">✓</span> Implementación Custom
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-white/40">✓</span> Entrenamiento de Equipo
+                            </li>
+                            <li class="flex items-center gap-3 font-mono text-[10px] text-white/70">
+                                <span class="text-white/40">✓</span> Mantenimiento y Escala
+                            </li>
+                        </ul>
+                        <div class="pt-6 border-t border-white/5 flex items-center justify-between">
+                            <span class="font-mono text-neon-cyan text-sm">Desde $300</span>
+                            <a href="#" class="font-mono text-[10px] border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">COTIZAR</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="py-20 border-t border-white/5">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="font-sans text-4xl font-bold uppercase mb-12 text-center reveal">Preguntas Frecuentes</h2>
+            
+            <div class="space-y-4">
+                <!-- Item 1 -->
+                <div class="faq-item group reveal border border-white/5 p-6 rounded-xl transition-all hover:bg-white/[0.02] cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs tracking-widest uppercase">¿Necesito saber de IA para contratar?</span>
+                        <span class="faq-icon transform transition-transform text-neon-cyan">↓</span>
+                    </div>
+                    <div class="faq-content">
+                        <p class="font-mono text-xs text-white/40 leading-relaxed">
+                            No. Mi trabajo es simplificar la tecnología compleja para que tú solo veas los resultados finales. Manejo toda la infraestructura por ti.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="faq-item group reveal border border-white/5 p-6 rounded-xl transition-all hover:bg-white/[0.02] cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs tracking-widest uppercase">¿Cuánto tiempo tarda en implementarse?</span>
+                        <span class="faq-icon transform transition-transform text-neon-cyan">↓</span>
+                    </div>
+                    <div class="faq-content">
+                        <p class="font-mono text-xs text-white/40 leading-relaxed">
+                            Para contenido, empezamos en 72h. Para automatizaciones complejas, suele tardar entre 1 y 2 semanas tras el diagnóstico inicial.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="faq-item group reveal border border-white/5 p-6 rounded-xl transition-all hover:bg-white/[0.02] cursor-pointer" onclick="toggleFaq(this)">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs tracking-widest uppercase">¿Hay compromiso de permanencia?</span>
+                        <span class="faq-icon transform transition-transform text-neon-cyan">↓</span>
+                    </div>
+                    <div class="faq-content">
+                        <p class="font-mono text-xs text-white/40 leading-relaxed">
+                            No. Me gusta trabajar con personas que ven el valor mes a mes. Puedes cancelar el servicio de contenido en cualquier momento.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+            © 2026 ADAN_CB90 · PROTOCOL_SERVICES_ACTIVE
+        </p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/yournumber" target="_blank" class="fixed bottom-10 right-10 w-16 h-16 bg-neon-cyan text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,245,196,0.5)] active:scale-95 transition-transform z-[1000] magnetic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    </a>
+
+    <script>
+        // FAQ logic
+        function toggleFaq(el) {
+            el.classList.toggle('active');
+        }
+
+        // Parallax Logic
+        window.addEventListener('scroll', () => {
+            const heroParallax = document.getElementById('hero-parallax');
+            if (heroParallax) {
+                const scrolled = window.pageYOffset;
+                heroParallax.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+        });
+
+        // Tilt logic for static HTML
+        document.querySelectorAll('.tilt-card').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20; // Max 10-15 deg
+                const rotateY = (centerX - x) / 20;
+                
+                el.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | ADAN_CB90 IA & Contenido</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Global Animations -->
+    <script src="/animations.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-cyan': '#ff6b00',
+                        'neon-pink': '#ff00c1',
+                        'cyber-purple': '#7b61ff',
+                        'cyber-dark': '#050508',
+                        'cyber-black': '#0c0c14',
+                    },
+                    fontFamily: {
+                        sans: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        serif: ['Instrument Serif', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050508;
+            color: white;
+            cursor: none; /* Managed by animations.js */
+        }
+        .noise-bg {
+            position: relative;
+            background-color: #11111a;
+        }
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .category-btn.active {
+            color: #ff6b00;
+            border-bottom-color: #ff6b00;
+        }
+        .blog-card:hover .zoom-img {
+            transform: scale(1.05);
+        }
+        .blog-card {
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-4px);
+        }
+        #article-view {
+            display: none;
+        }
+        .article-body {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="selection:bg-neon-cyan/30">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-[100] py-4 glass-nav">
+        <div class="container mx-auto px-6 flex items-center justify-between">
+            <a href="/" class="font-mono text-xl font-bold tracking-tighter text-[#ff6b00] active-link">ADAN_CB90</a>
+            <div class="hidden md:flex gap-8">
+                <a href="/" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">INICIO</a>
+                <a href="/servicios.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SERVICIOS</a>
+                <a href="/resultados.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">RESULTADOS</a>
+                <a href="/blog.html" class="font-mono text-[10px] tracking-widest text-white border-b border-[#ff6b00] pb-1">BLOG</a>
+                <a href="/sobre-mi.html" class="font-mono text-[10px] tracking-widest text-white/60 hover:text-white transition-colors">SOBRE MÍ</a>
+            </div>
+            <a href="/#contacto" class="font-mono text-[10px] tracking-widest border border-[#ff6b00] px-4 py-2 hover:bg-[#ff6b00] hover:text-black transition-all">TRABAJEMOS</a>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <header class="relative pt-40 pb-12 border-b border-white/5 overflow-hidden" id="blog-header">
+        <div class="absolute inset-0 -z-10 bg-cyber-dark">
+            <div id="blog-parallax" class="absolute inset-0 w-full h-[120%] -top-[10%]">
+                <video autoPlay loop muted playsInline class="w-full h-full object-cover opacity-90">
+                    <source src="https://ik.imagekit.io/x8axvbbz3/0508%20(2).mp4?updatedAt=1778287211210" type="video/mp4">
+                </video>
+            </div>
+            <div class="absolute inset-0 bg-cyber-dark/20"></div>
+        </div>
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-end justify-between gap-8 reveal">
+                <div>
+                    <h1 class="font-sans text-5xl md:text-7xl font-black tracking-tighter uppercase mb-4" data-scramble>Blog · IA & Contenido</h1>
+                    <p class="font-mono text-white/30 text-xs tracking-[0.4em] uppercase">Explorando el nuevo paradigma digital</p>
+                </div>
+                <div class="w-full md:w-80 relative z-20">
+                    <input type="text" id="blog-search" placeholder="BUSCAR ARTÍCULO..." class="w-full bg-white/5 border border-white/10 px-6 py-4 font-mono text-[10px] tracking-widest text-white focus:outline-none focus:border-[#ff6b00] transition-colors">
+                    <svg class="absolute right-6 top-1/2 -translate-y-1/2 text-white/20" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Filters -->
+    <section class="py-12 border-b border-white/5">
+        <div class="container mx-auto px-6 overflow-x-auto">
+            <div class="flex gap-12 whitespace-nowrap scrollbar-hide reveal">
+                <button class="category-btn active font-mono text-[10px] tracking-[0.3em] uppercase pb-2 border-b-2 border-transparent hover:text-[#ff6b00] transition-colors" data-category="todos">TODOS</button>
+                <button class="category-btn font-mono text-[10px] tracking-[0.3em] uppercase pb-2 border-b-2 border-transparent hover:text-[#ff6b00] transition-colors" data-category="ia-tools">IA TOOLS</button>
+                <button class="category-btn font-mono text-[10px] tracking-[0.3em] uppercase pb-2 border-b-2 border-transparent hover:text-[#ff6b00] transition-colors" data-category="estrategia">ESTRATEGIA</button>
+                <button class="category-btn font-mono text-[10px] tracking-[0.3em] uppercase pb-2 border-b-2 border-transparent hover:text-[#ff6b00] transition-colors" data-category="tutoriales">TUTORIALES</button>
+                <button class="category-btn font-mono text-[10px] tracking-[0.3em] uppercase pb-2 border-b-2 border-transparent hover:text-[#ff6b00] transition-colors" data-category="opinion">OPINIÓN</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <!-- Blog List -->
+                <div class="flex-1" id="blog-list">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12" id="posts-container">
+                        <!-- Post 1 -->
+                        <article class="blog-card group reveal" data-category="ia-tools">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/20 to-cyber-purple/20"></div>
+                                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-neon-cyan text-black font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">IA TOOLS</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(0)">Las 7 herramientas de IA que uso cada semana (2025)</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">12 MAY 2026 · 6 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">Un desglose técnico de mi stack principal. Desde generación de video hasta agentes de automatización...</p>
+                        </article>
+
+                        <!-- Post 2 -->
+                        <article class="blog-card group reveal" data-category="estrategia" style="transition-delay: 100ms;">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-neon-pink/20 to-orange-500/20"></div>
+                                <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-neon-pink text-white font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">ESTRATEGIA</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(1)">Cómo creé un video viral de 6 millones de vistas usando IA</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">08 MAY 2026 · 8 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">Análisis del algoritmo y cómo la IA me ayudó a predecir el comportamiento del usuario antes de publicar.</p>
+                        </article>
+
+                        <!-- Post 3 -->
+                        <article class="blog-card group reveal" data-category="ia-tools" style="transition-delay: 200ms;">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                                <img src="https://images.unsplash.com/photo-1675271591211-126ad94e495d?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-white text-black font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">IA TOOLS</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(2)">ChatGPT vs Claude vs Gemini: cuál es mejor para crear contenido</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">05 MAY 2026 · 10 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">Comparativa real basada en outputs de guiones, copywriting y estructuración de ideas.</p>
+                        </article>
+
+                        <!-- Post 4 -->
+                        <article class="blog-card group reveal" data-category="tutoriales">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-cyber-purple/20 to-neon-cyan/20"></div>
+                                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-cyber-purple text-white font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">TUTORIALES</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(3)">Guía completa: cómo empezar en IA sin saber programar</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">01 MAY 2026 · 15 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">No necesitas ser dev. Necesitas saber preguntar. Esta es la guía definitiva para el usuario no técnico.</p>
+                        </article>
+
+                        <!-- Post 5 -->
+                        <article class="blog-card group reveal" data-category="opinion">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-red-500/20 to-black"></div>
+                                <img src="https://images.unsplash.com/photo-1542281286-9e0a16bb7366?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-red-500 text-white font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">OPINIÓN</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(4)">La verdad que nadie te dice sobre la IA y los negocios</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">28 ABR 2026 · 7 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">Por qué la IA no va a salvar tu negocio si no tienes procesos claros antes de implementarla.</p>
+                        </article>
+
+                        <!-- Post 6 -->
+                        <article class="blog-card group reveal" data-category="tutoriales">
+                            <div class="aspect-video relative overflow-hidden rounded-xl mb-6 noise-bg border border-white/5">
+                                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20"></div>
+                                <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover transition-transform duration-700">
+                                <span class="absolute top-4 left-4 bg-cyan-500 text-white font-mono text-[8px] font-bold px-2 py-1 tracking-widest uppercase">TUTORIALES</span>
+                            </div>
+                            <h2 class="font-sans text-2xl font-bold uppercase tracking-tighter mb-4 cursor-pointer hover:text-neon-cyan transition-colors" onclick="showArticle(5)">Cómo automaticé mi Instagram con IA y gané 3 horas al día</h2>
+                            <p class="font-mono text-[10px] text-white/40 mb-4 tracking-widest uppercase">25 ABR 2026 · 12 MIN LECTURA</p>
+                            <p class="font-mono text-xs text-white/50 leading-relaxed mb-6">Mi sistema paso a paso de programación y respuesta automática inteligente.</p>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="w-full lg:w-80 space-y-16 reveal">
+                    
+                    <!-- Newsletter -->
+                    <div class="noise-bg border border-white/5 p-8 rounded-2xl">
+                        <h3 class="font-sans text-xl font-bold uppercase mb-4">Newsletter</h3>
+                        <p class="font-mono text-[10px] text-white/40 mb-6 leading-relaxed">Únete a +2,400 personas que reciben tips semanales de IA directamente en su inbox.</p>
+                        <form class="space-y-4">
+                            <input type="email" placeholder="TU EMAIL..." class="w-full bg-white/5 border border-white/10 px-4 py-3 font-mono text-[10px] tracking-widest text-white focus:outline-none focus:border-neon-cyan transition-colors">
+                            <button class="w-full bg-neon-cyan text-black font-mono text-[10px] font-bold py-3 tracking-widest uppercase hover:bg-white transition-colors">SUSCRIBIRME</button>
+                        </form>
+                    </div>
+
+                    <!-- Most Read -->
+                    <div>
+                        <h3 class="font-sans text-sm font-bold uppercase tracking-[0.2em] mb-8 relative">
+                            Más leídos
+                            <div class="absolute -bottom-2 left-0 h-px w-10 bg-neon-cyan"></div>
+                        </h3>
+                        <div class="space-y-8">
+                            <div class="flex gap-4 cursor-pointer group">
+                                <span class="font-sans text-2xl font-black text-white/10 group-hover:text-neon-cyan transition-colors">01</span>
+                                <p class="font-mono text-[10px] text-white/60 hover:text-white transition-colors leading-relaxed">Cómo monetizar tu marca personal con IA sin invertir en ads.</p>
+                            </div>
+                            <div class="flex gap-4 cursor-pointer group">
+                                <span class="font-sans text-2xl font-black text-white/10 group-hover:text-neon-cyan transition-colors">02</span>
+                                <p class="font-mono text-[10px] text-white/60 hover:text-white transition-colors leading-relaxed">Agentes inteligentes: el fin de los asistentes virtuales tradicionales.</p>
+                            </div>
+                            <div class="flex gap-4 cursor-pointer group">
+                                <span class="font-sans text-2xl font-black text-white/10 group-hover:text-neon-cyan transition-colors">03</span>
+                                <p class="font-mono text-[10px] text-white/60 hover:text-white transition-colors leading-relaxed">Review técnica: Apple Intelligence vs Galaxy AI.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Individual Article View (Hidden by default) -->
+    <section id="article-view" class="py-20 animate-fade-in">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <button onclick="hideArticle()" class="font-mono text-[10px] text-neon-cyan tracking-widest mb-12 flex items-center gap-2 group">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
+                VOLVER AL BLOG
+            </button>
+            <div id="article-content">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 text-center">
+        <p class="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+            © 2026 ADAN_CB90 · PROTOCOL_SERVICES_ACTIVE
+        </p>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/yournumber" target="_blank" class="fixed bottom-10 right-10 w-16 h-16 bg-neon-cyan text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,245,196,0.5)] active:scale-95 transition-transform z-[1000] magnetic">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    </a>
+
+    <script>
+        const articles = [
+            { title: "Las 7 herramientas de IA que uso cada semana (2025)", date: "12 MAY 2026", cat: "IA TOOLS", read: "6 MIN", content: "Este es el desglose completo de mi stack tecnológico actual. En 2025, la IA ha dejado de ser algo curioso para ser el motor de todo mi flujo de trabajo..." },
+            { title: "Cómo creé un video viral de 6 millones de vistas usando IA", date: "08 MAY 2026", cat: "ESTRATEGIA", read: "8 MIN", content: "La viralidad ya no es solo cuestión de suerte. Es cuestión de datos y psicología. En este artículo te cuento cómo usé Gemini para analizar la retención..." },
+            { title: "ChatGPT vs Claude vs Gemini: cuál es mejor para crear contenido", date: "05 MAY 2026", cat: "IA TOOLS", read: "10 MIN", content: "Llevo meses probando los tres grandes modelos de lenguaje en situaciones reales de producción. Aquí no vas a encontrar benchmarks sintéticos..." },
+            { title: "Guía completa: cómo empezar en IA sin saber programar", date: "01 MAY 2026", cat: "TUTORIALES", read: "15 MIN", content: "Mucha gente me pregunta: 'Adán, ¿qué curso de Python me recomiendas?' Y mi respuesta siempre es la misma: No aprendas Python, aprende a pensar en sistemas..." },
+            { title: "La verdad que nadie te dice sobre la IA y los negocios", date: "28 ABR 2026", cat: "OPINIÓN", read: "7 MIN", content: "Estamos en medio de una fiebre del oro. El problema es que muchos están comprando palas rotas. Si tu negocio no funciona, la IA solo lo hará fallar más rápido..." },
+            { title: "Cómo automaticé mi Instagram con IA y gané 3 horas al día", date: "25 ABR 2026", cat: "TUTORIALES", read: "12 MIN", content: "El tiempo es el único recurso que no podemos recuperar. Mi sistema de respuesta automática me permite filtrar clientes potenciales mientras duermo..." }
+        ];
+
+        function showArticle(index) {
+            const article = articles[index];
+            const content = `
+                <span class="font-mono text-neon-cyan text-xs tracking-[0.4em] mb-6 block uppercase">${article.cat}</span>
+                <h1 class="font-sans text-4xl md:text-6xl font-black uppercase tracking-tighter mb-8 leading-none">${article.title}</h1>
+                <p class="font-mono text-[10px] text-white/30 uppercase tracking-widest mb-12">${article.date} · ${article.read} LECTURA</p>
+                <div class="article-body text-white/70">
+                    <p class="mb-8">${article.content}</p>
+                    <p class="mb-8">Imagine aquí un artículo extenso escrito con tipografía editorial de alta calidad. La IA no es el futuro, es el presente que está reescribiendo cómo trabajamos, cómo nos comunicamos y cómo creamos.</p>
+                    <p class="mb-8">En el último año, hemos visto un salto cuántico en las capacidades de los modelos multimodales. Lo que antes requería un equipo de 5 personas ahora se puede prototipar en minutos.</p>
+                </div>
+            `;
+            document.getElementById('article-content').innerHTML = content;
+            document.getElementById('blog-list').parentElement.parentElement.style.display = 'none';
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('.py-12.border-b').style.display = 'none';
+            document.getElementById('article-view').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function hideArticle() {
+            document.getElementById('article-view').style.display = 'none';
+            document.getElementById('blog-list').parentElement.parentElement.style.display = 'block';
+            document.querySelector('header').style.display = 'block';
+            document.querySelector('.py-12.border-b').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // Search & Filter Logic
+        const searchInput = document.getElementById('blog-search');
+        const filterBtns = document.querySelectorAll('.category-btn');
+        const blogCards = document.querySelectorAll('.blog-card');
+
+        function filterPosts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+
+            blogCards.forEach(card => {
+                const title = card.querySelector('h2').innerText.toLowerCase();
+                const category = card.dataset.category;
+                
+                const matchesSearch = title.includes(searchTerm);
+                const matchesCategory = activeCategory === 'todos' || category === activeCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', filterPosts);
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterPosts();
+            });
+        });
+
+        // Parallax Logic
+        window.addEventListener('scroll', () => {
+            const blogParallax = document.getElementById('blog-parallax');
+            if (blogParallax) {
+                const scrolled = window.pageYOffset;
+                blogParallax.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+        });
+    </script>
+
+</body>
+</html>
