@@ -513,12 +513,13 @@ const Counter = ({ value, suffix }: { value: number, suffix: string }) => {
   return (
     <div ref={ref} className="flex flex-col items-center">
       <span 
-        className={`font-sans text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter tabular-nums transition-all duration-700 ${
-          complete ? 'counter-glow text-white' : 'text-white/80'
+        className={`font-sans text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-extrabold tracking-tighter tabular-nums transition-all duration-700 leading-none ${
+          complete ? 'counter-glow text-white' : 'text-white/70'
         }`}
+        style={{ textShadow: complete ? '0 0 15px rgba(255, 107, 0, 0.4)' : 'none' }}
       >
         {displayValue.toLocaleString()}
-        <span className="text-neon-cyan">{suffix}</span>
+        <span className="text-neon-cyan text-[0.5em] ml-1 align-baseline">{suffix}</span>
       </span>
     </div>
   );
@@ -536,18 +537,20 @@ const ResultsSection = () => {
   ];
 
   return (
-    <section id="resultados" className="relative py-32 bg-[#0c0c14] grid-bg overflow-hidden border-y border-white/5">
+    <section id="resultados" className="relative py-24 md:py-32 bg-[#0c0c14] grid-bg overflow-hidden border-y border-white/5">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-0 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-20 md:gap-12 lg:gap-0 items-start">
           {metrics.map((metric, idx) => (
-            <div key={idx} className="relative flex flex-col items-center text-center">
-              {/* Vertical Separator */}
+            <div key={idx} className="relative flex flex-col items-center text-center px-4">
+              {/* Vertical Separator - Only on Desktop */}
               {idx < metrics.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-px -translate-y-1/2 w-px h-32 bg-linear-to-b from-transparent via-white/10 to-transparent" />
+                <div className="hidden lg:block absolute top-1/2 -right-px -translate-y-1/2 w-px h-16 bg-linear-to-b from-transparent via-white/10 to-transparent" />
               )}
               
-              <Counter value={metric.value} suffix={metric.suffix} />
-              <span className="mt-4 font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">
+              <div className="min-h-[1em] flex items-center justify-center">
+                <Counter value={metric.value} suffix={metric.suffix} />
+              </div>
+              <span className="mt-6 font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[180px] relative z-10">
                 {metric.label}
               </span>
             </div>
@@ -574,9 +577,9 @@ const ResultsSection = () => {
         </motion.div>
       </div>
 
-      {/* Decorative background text */}
-      <div className="absolute -bottom-10 right-0 font-sans text-[25vw] font-black text-white/[0.01] pointer-events-none select-none uppercase tracking-tighter leading-none -z-0">
-        Results
+      {/* Decorative background text - Repositioned to not overlap numbers */}
+      <div className="absolute top-10 -left-10 font-sans text-[20vw] font-black text-white/[0.01] pointer-events-none select-none uppercase tracking-tighter leading-none -z-0">
+        DATA
       </div>
     </section>
   );
@@ -954,7 +957,7 @@ const ParticleBackground = () => {
 const GlitchText = ({ text }: { text: string }) => {
   return (
     <h1 
-      className="relative font-sans text-5xl md:text-7xl lg:text-[140px] font-black tracking-tighter leading-none mb-4 uppercase select-none glitch-active"
+      className="relative font-sans text-4xl sm:text-5xl md:text-7xl lg:text-[140px] font-black tracking-tighter leading-none mb-4 uppercase select-none glitch-active"
       data-text={text}
       id="glitch-title"
       style={{ textShadow: '2px 0 #ff6b00, -2px 0 #ff00c1' }}
@@ -981,8 +984,8 @@ const Typewriter = ({ text }: { text: string }) => {
   }, [text]);
 
   return (
-    <div className="mb-12 h-8">
-      <p className="font-mono text-neon-cyan text-lg md:text-xl tracking-[0.3em] uppercase opacity-80" id="typewriter">
+    <div className="min-h-[2rem]">
+      <p className="font-mono text-neon-cyan text-base md:text-lg lg:text-xl tracking-[0.2em] md:tracking-[0.3em] uppercase opacity-80" id="typewriter">
         {displayedText}
         <span className="animate-pulse">|</span>
       </p>
@@ -1244,37 +1247,36 @@ export default function App() {
           <ParticleBackground />
         </div>
 
-        {/* Hero Content - Shifted to side to avoid covering center */}
-        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pointer-events-none pt-20 lg:pt-0">
-          <div className="flex flex-col items-start text-left pointer-events-auto max-w-xl">
+        {/* Hero Content - Optimized for all screens */}
+        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pointer-events-none pt-28 sm:pt-32 lg:pt-0">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left pointer-events-auto max-w-xl mx-auto lg:mx-0">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
               <GlitchText text="ADAN_CB90" />
             </motion.div>
             
-            <div className="mt-4 mb-12">
-              <div data-scramble className="opacity-0 h-0 overflow-hidden">IA Disruptiva · Marca Personal</div>
+            <div className="mt-4 mb-8 lg:mb-12">
               <Typewriter text="IA Disruptiva · Marca Personal" />
             </div>
             
-            <div className="flex flex-col items-start gap-12">
+            <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-12">
               <MagneticButton className="magnetic">EMPIEZA AHORA</MagneticButton>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 }}
-                className="flex items-center gap-6 text-white/40"
+                className="flex flex-wrap justify-center lg:justify-start items-center gap-4 lg:gap-6 text-white/40"
               >
-                <div className="flex items-center gap-2 group cursor-pointer hover:text-neon-cyan">
+                <div className="flex items-center gap-2 group cursor-pointer hover:text-neon-cyan transition-colors whitespace-nowrap">
                   <Mail size={16} />
-                  <span className="font-mono text-xs">contact@adan-cb90.io</span>
+                  <span className="font-mono text-[10px] md:text-xs">contact@adan-cb90.io</span>
                 </div>
-                <div className="w-6 h-px bg-white/20" />
-                <div className="font-mono text-[10px] uppercase tracking-widest text-white/20">
+                <div className="hidden sm:block w-6 h-px bg-white/20" />
+                <div className="font-mono text-[10px] uppercase tracking-widest text-white/20 whitespace-nowrap">
                   EST. 2026
                 </div>
               </motion.div>
@@ -1311,7 +1313,7 @@ export default function App() {
       </div>
       
       {/* Results Section */}
-      <div className="reveal">
+      <div className="reveal relative z-10">
         <ResultsSection />
       </div>
 
