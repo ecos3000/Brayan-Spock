@@ -38,7 +38,7 @@ export default function Proceso() {
       id="proceso-detalle" 
       className="relative py-32 bg-cyber-dark overflow-hidden"
     >
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <header className="mb-24 text-center">
           <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Workflow</span>
           <h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none">

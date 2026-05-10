@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Proceso from '../components/Proceso';
 import { Mail, ArrowDown, Bot, Smartphone, Target, Video, CheckCircle2, ChevronDown, Quote, Instagram, Twitter, Linkedin, Github, Send, Loader2, PartyPopper, Facebook } from 'lucide-react';
+import siteData from '../site-content.json';
 
 const Tiktok = ({ size = 18, className = "" }: { size?: number, className?: string }) => (
   <svg 
@@ -92,7 +93,7 @@ export const TestimonialsSection = () => {
         </motion.div>
         <div className="absolute inset-0 bg-[#0c0c14]/10"></div>
       </div>
-      <div className="container mx-auto px-6 mb-20 text-center relative z-10">
+      <div className="container mx-auto px-6 mb-20 text-center relative z-10 max-w-7xl">
         <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Feedback</span>
         <h2 className="font-sans text-4xl md:text-6xl font-extrabold tracking-tighter uppercase leading-none">
           Lo que dicen los que <br /> <span className="text-white/40">ya dieron el salto</span>
@@ -142,10 +143,12 @@ export const ScrambleText = ({ text }: { text: string }) => {
   return <span ref={ref}>{displayText}</span>;
 };
 
-export const ContactSection = () => {
+export const ContactSection = ({ data: externalData }: { data?: any }) => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [showEasterEgg, setShowEasterEgg] = useState(false);
+
+  const data = externalData || siteData;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -166,13 +169,15 @@ export const ContactSection = () => {
     }, 2000);
   };
 
-  const socials = [
-    { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/' },
-    { icon: Twitter, label: 'X', href: 'https://x.com/' },
-    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/' },
-    { icon: Tiktok, label: 'TikTok', href: 'https://tiktok.com/' },
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/' },
-  ];
+  const socials = data.socials.map(s => ({
+    icon: s.label === 'instagram' ? Instagram : 
+          s.label === 'twitter' || s.label === 'x' ? Twitter : 
+          s.label === 'facebook' ? Facebook : 
+          s.label === 'tiktok' ? Tiktok : 
+          s.label === 'linkedin' ? Linkedin : Github,
+    label: s.label,
+    href: s.href
+  }));
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
@@ -188,8 +193,8 @@ export const ContactSection = () => {
         </motion.div>
         <div className="absolute inset-0 bg-[#0c0c14]/10"></div>
       </div>
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <div className="flex flex-col justify-center">
             <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Contacto</span>
             <h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-tight mb-8">
@@ -272,25 +277,25 @@ const Counter = ({ value, suffix }: { value: number, suffix: string }) => {
   }, [isInView, value]);
   return (
     <div ref={ref} className="flex flex-col items-center">
-      <span className={`font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter tabular-nums transition-all duration-700 leading-none ${complete ? 'counter-glow text-white' : 'text-white/70'}`} style={{ textShadow: complete ? '0 0 15px rgba(255, 107, 0, 0.4)' : 'none' }}>
+      <span 
+        data-target={value}
+        className={`font-sans text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight tabular-nums transition-all duration-700 leading-tight ${complete ? 'counter-glow text-white' : 'text-white/70'}`} 
+        style={{ textShadow: complete ? '0 0 15px rgba(255, 107, 0, 0.4)' : 'none' }}
+      >
         {displayValue.toLocaleString()}<span className="text-neon-cyan text-[0.4em] ml-1 align-baseline">{suffix}</span>
       </span>
     </div>
   );
 };
 
-export const ResultsSection = () => {
-  const metrics = [
-    { value: 19000, suffix: "+", label: "SEGUIDORES ORGÁNICOS" },
-    { value: 6600000, suffix: "+", label: "VISTAS UN SOLO VIDEO" },
-    { value: 195, suffix: "+", label: "PUBLICACIONES" },
-    { value: 3, suffix: "+", label: "AÑOS CREANDO CONTENIDO" },
-  ];
+export const ResultsSection = ({ data: externalData }: { data?: any }) => {
+  const data = externalData || siteData;
+  const metrics = data.metrics;
   return (
     <section id="resultados" className="relative py-24 md:py-32 bg-[#0c0c14] overflow-hidden border-y border-white/5">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 sm:gap-y-20 md:gap-12 lg:gap-0 items-start">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-4 sm:gap-x-8 md:gap-12 lg:gap-16 items-start">
           {metrics.map((metric, idx) => (
             <motion.div 
               key={idx} 
@@ -302,7 +307,7 @@ export const ResultsSection = () => {
             >
               {idx < metrics.length - 1 && <div className="hidden lg:block absolute top-1/2 -right-px -translate-y-1/2 w-px h-16 bg-linear-to-b from-transparent via-white/10 to-transparent" />}
               <div className="flex items-center justify-center"><Counter value={metric.value} suffix={metric.suffix} /></div>
-              <span className="mt-4 sm:mt-6 font-mono text-[8px] sm:text-[9px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[150px] sm:max-w-[180px] relative z-10 leading-tight">{metric.label}</span>
+              <span className="mt-8 sm:mt-12 font-mono text-[8px] sm:text-[9px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[150px] sm:max-w-[180px] relative z-10 leading-tight">{metric.label}</span>
             </motion.div>
           ))}
         </div>
@@ -312,7 +317,7 @@ export const ResultsSection = () => {
           <div className="mt-8 flex items-center gap-4"><div className="w-12 h-px bg-white/10" /><span className="font-mono text-xs tracking-widest text-white/30 uppercase">ADAN_CB90</span><div className="w-12 h-px bg-white/10" /></div>
         </motion.div>
       </div>
-      <div className="absolute top-10 -left-10 font-sans text-[20vw] font-black text-white/[0.01] pointer-events-none select-none uppercase tracking-tighter leading-none -z-0">DATA</div>
+      <div className="absolute top-1/2 -translate-y-1/2 -left-10 font-sans text-[20vw] font-black text-white/[0.002] pointer-events-none select-none uppercase tracking-tighter leading-none -z-20">DATA</div>
     </section>
   );
 };
@@ -374,7 +379,7 @@ export const ServicesSection = () => {
   return (
     <section ref={sectionRef} id="servicios" className="relative py-32 overflow-hidden bg-cyber-dark">
       <div className="absolute inset-0 z-0"><motion.div style={{ y }} className="absolute inset-0 w-full h-[130%] -top-[15%]"><video key="servicios-video" autoPlay loop muted playsInline preload="none" className="w-full h-full object-cover opacity-100"><source src="https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4" type="video/mp4" /></video></motion.div><div className="absolute inset-0 bg-cyber-dark/80 backdrop-blur-3xl"></div></div>
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <header className="mb-20 text-center"><span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Portafolio</span><h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none mb-12">Servicios <span className="text-white/40">Estratégicos</span></h2><div className="flex flex-wrap justify-center gap-4">{categories.map(cat => (<button key={cat} onClick={() => setFilter(cat)} className={`px-6 py-2 font-mono text-[10px] tracking-widest uppercase transition-all border border-white/5 rounded-full ${filter === cat ? 'bg-neon-cyan text-cyber-dark border-neon-cyan shadow-[0_0_20px_rgba(0,245,196,0.2)]' : 'hover:border-neon-cyan/50 text-white/50'}`}>{cat}</button>))}</div></header>
         <motion.div 
           layout 
@@ -422,7 +427,7 @@ export const ClientsSection = () => {
   const clients = [{ name: "Brand One", icon: Bot }, { name: "Global Tech", icon: Smartphone }, { name: "Creative Studio", icon: Target }, { name: "Future Vision", icon: Video }, { name: "Nexus AI", icon: Bot }, { name: "Digital Edge", icon: Smartphone }];
   return (
     <section className="py-20 border-b border-white/5 bg-[#0c0c14]/50">
-      <div className="container mx-auto px-6 text-center">
+      <div className="container mx-auto px-6 text-center max-w-7xl">
         <span className="font-mono text-white/20 text-[9px] tracking-[0.3em] uppercase mb-10 block">Con la confianza de referentes industriales</span>
         <div className="flex flex-wrap justify-center gap-10 md:gap-20 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
           {clients.map((client, i) => (<div key={i} className="flex items-center gap-2 group transition-all hover:scale-110 hover:opacity-100"><client.icon size={20} className="text-white group-hover:text-neon-cyan transition-colors" /><span className="font-mono text-[10px] font-bold tracking-widest text-white group-hover:text-white uppercase">{client.name}</span></div>))}
@@ -488,7 +493,7 @@ export const GlitchText = ({ text }: { text: string }) => {
     <motion.h1 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`relative font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter leading-none mb-4 uppercase select-none ${isGlitching ? 'glitch-active' : ''}`} 
+      className={`relative font-sans text-3xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-[0.9] mb-4 uppercase select-none ${isGlitching ? 'glitch-active' : ''}`} 
       data-text={text} 
       id="glitch-title" 
       style={{ textShadow: '2px 0 #00f5c4, -2px 0 #7b61ff' }}
@@ -537,10 +542,38 @@ export default function Home() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
+  const [data, setData] = useState(siteData);
+  const [loading, setLoading] = useState(true);
+
+  // Exponer a ventana para el panel de administración
+  useEffect(() => {
+    (window as any).siteData = data;
+    (window as any).setSiteData = (newData: any) => {
+      setData((prev: any) => ({ ...prev, ...newData }));
+    };
+  }, [data]);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch('/api/get-content');
+        if (res.ok) {
+          const json = await res.json();
+          setData(json);
+        }
+      } catch (err) {
+        console.error("Error loading content:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
   return (
     <div className="bg-cyber-dark">
       {/* Hero Section */}
-      <section ref={heroRef} id="inicio" className="relative h-screen min-h-[600px] w-full flex items-center overflow-hidden">
+      <section ref={heroRef} id="inicio" className="relative min-h-screen w-full flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <motion.div style={{ y: heroY }} className="absolute inset-0 w-full h-full">
             <video autoPlay loop muted playsInline className="w-full h-full object-cover opacity-95 scale-110">
@@ -552,16 +585,16 @@ export default function Home() {
         <div className="absolute inset-0 z-[1] pointer-events-none opacity-20"><GradientMesh /></div>
         <div className="absolute inset-0 z-[2] pointer-events-none opacity-20"><ParticleBackground /></div>
 
-        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pt-28 sm:pt-32 lg:pt-0">
+        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 py-20 lg:py-32">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl mx-auto lg:mx-0">
-            <GlitchText text="ADAN_CB90" />
+            <GlitchText text={data.hero.title} />
             <motion.div 
               initial={{ opacity: 0, x: -20 }} 
               animate={{ opacity: 1, x: 0 }} 
               transition={{ delay: 0.5 }}
               className="mt-4 mb-8 lg:mb-12"
             >
-              <Typewriter text="IA Disruptiva · Marca Personal" />
+              <Typewriter text={data.hero.subtitle} />
             </motion.div>
             <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-12 w-full">
               <motion.div
@@ -571,7 +604,7 @@ export default function Home() {
                 className="w-full sm:w-auto"
               >
                 <Link to="/contacto" className="w-full sm:w-auto">
-                  <MagneticButton className="w-full sm:w-auto">EMPIEZA AHORA</MagneticButton>
+                  <MagneticButton className="w-full sm:w-auto">{data.hero.cta}</MagneticButton>
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="flex flex-wrap justify-center lg:justify-start items-center gap-4 lg:gap-6 text-white/40">
@@ -587,10 +620,10 @@ export default function Home() {
 
       <Reveal><ServicesSection /></Reveal>
       <ClientsSection />
-      <Reveal><ResultsSection /></Reveal>
+      <Reveal><ResultsSection data={data} /></Reveal>
       <Reveal><Proceso /></Reveal>
       <Reveal><TestimonialsSection /></Reveal>
-      <Reveal><ContactSection /></Reveal>
+      <Reveal><ContactSection data={data} /></Reveal>
     </div>
   );
 }

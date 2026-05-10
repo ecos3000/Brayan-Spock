@@ -1,7 +1,51 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useSpring, useMotionValue } from 'motion/react';
+
+const CustomCursor = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const cursorX = useSpring(mouseX, { damping: 20, stiffness: 250 });
+  const cursorY = useSpring(mouseY, { damping: 20, stiffness: 250 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      setIsHovering(!!target.closest('button, a, .cursor-pointer'));
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, [mouseX, mouseY]);
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-6 h-6 border-2 border-neon-cyan rounded-full pointer-events-none z-[9999] hidden lg:flex items-center justify-center mix-blend-difference"
+      style={{
+        x: cursorX,
+        y: cursorY,
+        translateX: '-50%',
+        translateY: '-50%',
+        scale: isHovering ? 1.5 : 1,
+        backgroundColor: isHovering ? 'rgba(255, 107, 0, 0.4)' : 'transparent',
+      }}
+    >
+      <div className="w-1 h-1 bg-neon-cyan rounded-full" />
+    </motion.div>
+  );
+};
+
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,7 +78,7 @@ const Navbar = () => {
           : 'bg-transparent py-8'
       }`}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container mx-auto px-6 flex items-center justify-between max-w-7xl">
         {/* Logo */}
         <Link 
           to="/" 
@@ -131,9 +175,9 @@ const Navbar = () => {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="bg-cyber-dark min-h-screen selection:bg-neon-cyan/30">
+      <CustomCursor />
       <Navbar />
       {children}
-      {/* Footer can go here if needed */}
     </main>
   );
 }

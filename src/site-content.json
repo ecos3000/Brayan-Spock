@@ -1,0 +1,20 @@
+{
+  "hero": {
+    "title": "ADAN_CB90",
+    "subtitle": "IA Disruptiva · Marca Personal",
+    "cta": "EMPIEZA AHORA"
+  },
+  "socials": [
+    { "label": "instagram", "href": "https://instagram.com/adan_cb90" },
+    { "label": "tiktok", "href": "https://tiktok.com/@adan_cb90" },
+    { "label": "twitter", "href": "https://twitter.com/adan_cb90" },
+    { "label": "linkedin", "href": "https://linkedin.com/in/adan_cb90" }
+  ],
+  "metrics": [
+    { "value": 19000, "suffix": "+", "label": "SEGUIDORES ORGÁNICOS" },
+    { "value": 6600000, "suffix": "+", "label": "VISTAS UN SOLO VIDEO" },
+    { "value": 195, "suffix": "+", "label": "PUBLICACIONES" },
+    { "value": 3, "suffix": "+", "label": "AÑOS CREANDO CONTENIDO" }
+  ],
+  "services_video": "https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4"
+}
