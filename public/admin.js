@@ -256,7 +256,9 @@
         const socialLinks = Array.from(document.querySelectorAll('a')).filter(a => {
             const txt = a.innerText.toLowerCase();
             const classes = a.className.toLowerCase();
-            return socialKeywords.some(k => txt.includes(k) || classes.includes(k));
+            const title = (a.getAttribute('title') || '').toLowerCase();
+            const href = a.href.toLowerCase();
+            return socialKeywords.some(k => txt.includes(k) || classes.includes(k) || title.includes(k) || href.includes(k));
         });
 
         container.innerHTML = `
@@ -355,9 +357,9 @@
                             </div>
                         `;
                     }).join('')}
-                    <div class="edit-card flex-center" style="border: 1px dashed rgba(0,245,196,0.3); cursor:pointer;" onclick="addItem('${id}', 'text')">
-                        <span style="font-size:30px; color:#00f5c4;">+</span>
-                        <div style="font-family:'JetBrains Mono'; font-size:10px; margin-left:10px;">AÑADIR PÁRRAFO</div>
+                    <div class="edit-card flex-center" style="border: 1px dashed rgba(255,255,255,0.2); cursor:pointer; min-height:100px;" onclick="addItem('${id}', 'link')">
+                        <span style="font-size:24px; color:#00f5c4;">+</span>
+                        <div style="font-family:'JetBrains Mono'; font-size:10px; margin-left:10px;">AÑADIR NUEVO ENLACE / BOTÓN</div>
                     </div>
                 </div>
             </div>
@@ -371,10 +373,10 @@
                             <div class="edit-card">
                                 <label>Imagen ${i+1}</label>
                                 <img src="${el.src}" class="media-prev-dash">
-                                <input type="text" value="${el.getAttribute('src') || el.src}" oninput="document.getElementById('${el.id}').src = this.value" placeholder="Nueva URL...">
+                                <input type="text" value="${el.getAttribute('src') || el.src}" oninput="document.getElementById('${el.id}').src = this.value" placeholder="Nueva URL de imagen...">
                                 <div class="mt-20 flex-center gap-10">
                                     <button class="btn-dash btn-outline" style="flex:1;" onclick="closeDash(); document.getElementById('${el.id}').scrollIntoView({behavior:'smooth', block:'center'});">UBICAR</button>
-                                    <button class="btn-dash btn-danger" onclick="document.getElementById('${el.id}').remove(); loadSection('${id}');">BORRAR</button>
+                                    <button class="btn-dash btn-danger" onclick="if(confirm('¿ELIMINAR IMAGEN?')) { document.getElementById('${el.id}').remove(); loadSection('${id}'); }">ELIMINAR</button>
                                 </div>
                             </div>
                         `;
@@ -390,7 +392,7 @@
                                 <input type="text" value="${src}" onchange="updateMedia('${el.id}', this.value)" placeholder="URL .mp4...">
                                 <div class="mt-20 flex-center gap-10">
                                     <button class="btn-dash btn-outline" style="flex:1;" onclick="closeDash(); document.getElementById('${el.id}').scrollIntoView({behavior:'smooth', block:'center'});">UBICAR</button>
-                                    <button class="btn-dash btn-danger" onclick="document.getElementById('${el.id}').remove(); loadSection('${id}');">ELIMINAR</button>
+                                    <button class="btn-dash btn-danger" onclick="if(confirm('¿ELIMINAR VIDEO?')) { document.getElementById('${el.id}').remove(); loadSection('${id}'); }">ELIMINAR</button>
                                 </div>
                             </div>
                         `;
@@ -421,14 +423,14 @@
                                 <input type="text" value="${el.src}" oninput="document.getElementById('${el.id}').src = this.value" placeholder="Nueva URL embed...">
                                 <div class="mt-20 flex-center gap-10">
                                     <button class="btn-dash btn-outline" style="flex:1;" onclick="closeDash(); document.getElementById('${el.id}').scrollIntoView({behavior:'smooth', block:'center'});">UBICAR</button>
-                                    <button class="btn-dash btn-danger" onclick="document.getElementById('${el.id}').remove(); loadSection('${id}');">ELIMINAR</button>
+                                    <button class="btn-dash btn-danger" onclick="if(confirm('¿ELIMINAR IFRAME?')) { document.getElementById('${el.id}').remove(); loadSection('${id}'); }">ELIMINAR</button>
                                 </div>
                             </div>
                         `;
                     }).join('')}
-                    <div class="edit-card flex-center" style="border: 1px dashed rgba(0,245,196,0.3); cursor:pointer;" onclick="addItem('${id}', 'media')">
+                    <div class="edit-card flex-center" style="border: 1px dashed rgba(0,245,196,0.3); cursor:pointer; min-height:140px; flex-direction:column;" onclick="addItem('${id}', 'media')">
                         <span style="font-size:30px; color:#00f5c4;">+</span>
-                        <div style="font-family:'JetBrains Mono'; font-size:10px; margin-left:10px;">AÑADIR MEDIA</div>
+                        <div style="font-family:'JetBrains Mono'; font-size:10px; margin-top:10px;">AÑADIR IMAGEN O VIDEO</div>
                     </div>
                 </div>
             </div>
@@ -453,15 +455,31 @@
         const target = document.getElementById(secId) || document.querySelector(secId);
         if (type === 'text') {
             const p = document.createElement('p');
-            p.innerText = "NUEVO BLOQUE";
+            p.innerText = "NUEVO PÁRRAFO - EDITAR EN PANEL";
             p.style.textAlign = "center"; p.style.padding = "20px"; p.style.color = "white";
+            p.style.fontFamily = "'JetBrains Mono', monospace"; p.style.fontSize = "12px";
             target.appendChild(p);
+        } else if (type === 'link') {
+            const a = document.createElement('a');
+            a.innerText = "BOTÓN NUEVO";
+            a.href = "#";
+            a.style.display = "inline-block"; a.style.padding = "10px 20px"; a.style.margin = "10px";
+            a.style.border = "1px solid #00f5c4"; a.style.color = "#00f5c4"; a.style.fontFamily = "'JetBrains Mono'";
+            a.style.fontSize = "10px"; a.style.textDecoration = "none";
+            target.appendChild(a);
         } else {
-            const url = prompt("URL DE LA IMAGEN:");
+            const url = prompt("URL DE LA IMAGEN O VIDEO (.mp4):");
             if (url) {
-                const img = document.createElement('img');
-                img.src = url; img.style.width = "100%"; img.style.maxWidth = "600px"; img.style.margin = "40px auto"; img.style.display = "block";
-                target.appendChild(img);
+                if (url.endsWith('.mp4') || url.includes('video')) {
+                    const video = document.createElement('video');
+                    video.src = url; video.autoplay = true; video.loop = true; video.muted = true;
+                    video.style.width = "100%"; video.style.maxWidth = "800px"; video.style.margin = "40px auto"; video.style.display = "block";
+                    target.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = url; img.style.width = "100%"; img.style.maxWidth = "800px"; img.style.margin = "40px auto"; img.style.display = "block";
+                    target.appendChild(img);
+                }
             }
         }
         loadSection(secId);

@@ -198,16 +198,25 @@ export const ContactSection = () => {
             <p className="font-mono text-sm text-white/40 leading-relaxed mb-12 max-w-md">
               ¿Listo para desbloquear el potencial de la IA en tu marca? Cuéntame tu visión y diseñaremos la arquitectura necesaria para hacerla realidad.
             </p>
-            <div className="space-y-6">
+            <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
               {socials.map((social, idx) => (
-                <a key={idx} href={social.href} title={`Visit our ${social.label}`} className="flex items-center gap-4 group w-fit">
-                  <div className="w-10 h-10 rounded-full border border-white/5 flex items-center justify-center group-hover:border-neon-cyan/50 group-hover:text-neon-cyan group-hover:scale-110 transition-all duration-300">
-                    <social.icon size={18} />
+                <motion.a 
+                  key={idx} 
+                  href={social.href} 
+                  title={`Visit our ${social.label}`} 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * idx }}
+                  className="flex flex-col items-center gap-2 group w-20"
+                >
+                  <div className="w-14 h-14 rounded-full border border-white/5 flex items-center justify-center group-hover:border-neon-cyan/50 group-hover:text-neon-cyan group-hover:scale-125 group-hover:shadow-[0_0_30px_rgba(0,245,196,0.3)] group-hover:bg-neon-cyan/5 transition-all duration-500">
+                    <social.icon size={22} />
                   </div>
-                  <span className="font-mono text-xs tracking-widest text-white/30 group-hover:text-white transition-colors">
+                  <span className="font-mono text-[9px] tracking-widest text-white/20 group-hover:text-neon-cyan transition-colors whitespace-nowrap">
                     {social.label.toUpperCase()}
                   </span>
-                </a>
+                </motion.a>
               ))}
             </div>
           </div>
@@ -281,13 +290,20 @@ export const ResultsSection = () => {
     <section id="resultados" className="relative py-24 md:py-32 bg-[#0c0c14] overflow-hidden border-y border-white/5">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-16 sm:gap-y-20 md:gap-12 lg:gap-0 items-start">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 sm:gap-y-20 md:gap-12 lg:gap-0 items-start">
           {metrics.map((metric, idx) => (
-            <div key={idx} className="relative flex flex-col items-center text-center px-2 sm:px-4">
+            <motion.div 
+              key={idx} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="relative flex flex-col items-center text-center px-2 sm:px-4"
+            >
               {idx < metrics.length - 1 && <div className="hidden lg:block absolute top-1/2 -right-px -translate-y-1/2 w-px h-16 bg-linear-to-b from-transparent via-white/10 to-transparent" />}
               <div className="flex items-center justify-center"><Counter value={metric.value} suffix={metric.suffix} /></div>
-              <span className="mt-4 sm:mt-6 font-mono text-[8px] sm:text-[10px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[150px] sm:max-w-[180px] relative z-10 leading-tight">{metric.label}</span>
-            </div>
+              <span className="mt-4 sm:mt-6 font-mono text-[8px] sm:text-[9px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[150px] sm:max-w-[180px] relative z-10 leading-tight">{metric.label}</span>
+            </motion.div>
           ))}
         </div>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 1, duration: 0.8 }} className="mt-32 flex flex-col items-center text-center max-w-2xl mx-auto">
@@ -360,7 +376,18 @@ export const ServicesSection = () => {
       <div className="absolute inset-0 z-0"><motion.div style={{ y }} className="absolute inset-0 w-full h-[130%] -top-[15%]"><video key="servicios-video" autoPlay loop muted playsInline preload="none" className="w-full h-full object-cover opacity-100"><source src="https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4" type="video/mp4" /></video></motion.div><div className="absolute inset-0 bg-cyber-dark/80 backdrop-blur-3xl"></div></div>
       <div className="container mx-auto px-6 relative z-10">
         <header className="mb-20 text-center"><span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Portafolio</span><h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none mb-12">Servicios <span className="text-white/40">Estratégicos</span></h2><div className="flex flex-wrap justify-center gap-4">{categories.map(cat => (<button key={cat} onClick={() => setFilter(cat)} className={`px-6 py-2 font-mono text-[10px] tracking-widest uppercase transition-all border border-white/5 rounded-full ${filter === cat ? 'bg-neon-cyan text-cyber-dark border-neon-cyan shadow-[0_0_20px_rgba(0,245,196,0.2)]' : 'hover:border-neon-cyan/50 text-white/50'}`}>{cat}</button>))}</div></header>
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><AnimatePresence mode="popLayout">{filteredServices.map((service, idx) => (<ServiceCard key={service.title} service={service} index={idx} onClick={() => setSelectedService(service)} />))}</AnimatePresence></motion.div>
+        <motion.div 
+          layout 
+          className="flex lg:grid lg:grid-cols-4 gap-6 overflow-x-auto pb-8 lg:pb-0 scrollbar-hide snap-x snap-mandatory lg:overflow-visible"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service, idx) => (
+              <div key={service.title} className="min-w-[280px] sm:min-w-[320px] lg:min-w-0 snap-center lg:snap-align-none flex-1">
+                <ServiceCard service={service} index={idx} onClick={() => setSelectedService(service)} />
+              </div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
       <AnimatePresence>
         {selectedService && (
@@ -528,11 +555,25 @@ export default function Home() {
         <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pt-28 sm:pt-32 lg:pt-0">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl mx-auto lg:mx-0">
             <GlitchText text="ADAN_CB90" />
-            <div className="mt-4 mb-8 lg:mb-12"><Typewriter text="IA Disruptiva · Marca Personal" /></div>
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              transition={{ delay: 0.5 }}
+              className="mt-4 mb-8 lg:mb-12"
+            >
+              <Typewriter text="IA Disruptiva · Marca Personal" />
+            </motion.div>
             <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-12 w-full">
-              <Link to="/contacto" className="w-full sm:w-auto">
-                <MagneticButton className="w-full sm:w-auto">EMPIEZA AHORA</MagneticButton>
-              </Link>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8 }}
+                className="w-full sm:w-auto"
+              >
+                <Link to="/contacto" className="w-full sm:w-auto">
+                  <MagneticButton className="w-full sm:w-auto">EMPIEZA AHORA</MagneticButton>
+                </Link>
+              </motion.div>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="flex flex-wrap justify-center lg:justify-start items-center gap-4 lg:gap-6 text-white/40">
                 <div className="flex items-center gap-2 group cursor-pointer hover:text-neon-cyan transition-colors whitespace-nowrap"><Mail size={16} /><span>contact@adan-cb90.io</span></div>
                 <div className="hidden sm:block w-6 h-px bg-white/20" /><div className="font-mono text-[10px] uppercase tracking-widest text-white/20 whitespace-nowrap">EST. 2026</div>
