@@ -11,7 +11,23 @@
 import * as React from 'react';
 import { motion, useSpring, useMotionValue, useTransform, AnimatePresence, useInView, animate, useScroll } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
-import { Mail, ArrowDown, Bot, Smartphone, Target, Video, CheckCircle2, ChevronDown, Quote, Instagram, Twitter, Linkedin, Github, Send, Loader2, PartyPopper } from 'lucide-react';
+import { Mail, ArrowDown, Bot, Smartphone, Target, Video, CheckCircle2, ChevronDown, Quote, Instagram, Twitter, Linkedin, Github, Send, Loader2, PartyPopper, Facebook } from 'lucide-react';
+
+const Tiktok = ({ size = 18, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 // --- Components ---
 
@@ -323,10 +339,11 @@ const ContactSection = () => {
   };
 
   const socials = [
-    { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Twitter, label: 'Twitter', href: '#' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#' },
-    { icon: Github, label: 'GitHub', href: '#' },
+    { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/' },
+    { icon: Twitter, label: 'X', href: 'https://x.com/' },
+    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/' },
+    { icon: Tiktok, label: 'TikTok', href: 'https://tiktok.com/' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/' },
   ];
 
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -601,8 +618,7 @@ interface ServiceProps {
   index: number;
 }
 
-const ServiceCard = ({ service, index }: ServiceProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const ServiceCard = ({ service, index, onClick }: { service: any, index: number, onClick: () => void }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   
   // Tilt values
@@ -633,20 +649,20 @@ const ServiceCard = ({ service, index }: ServiceProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.15, duration: 0.6 }}
-      className="perspective-1000"
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      whileHover={{ scale: 1.02 }}
+      className="perspective-1000 h-full"
     >
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={onClick}
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        className={`relative noise-bg border border-white/5 p-8 flex flex-col items-start text-left group transition-all duration-500 overflow-hidden ${
-          isExpanded ? 'h-auto' : 'h-[420px]'
-        }`}
+        className="relative noise-bg border border-white/5 p-10 flex flex-col items-start text-left group transition-all duration-500 overflow-hidden cursor-pointer h-full"
       >
         {/* Animated Border Gradient (visible on hover) */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-0">
@@ -655,50 +671,30 @@ const ServiceCard = ({ service, index }: ServiceProps) => {
         </div>
 
         <div className="relative z-10 w-full flex flex-col h-full">
+          {/* Category Tag */}
+          <div className="font-mono text-[9px] text-neon-cyan mb-4 tracking-[0.2em] uppercase opacity-60">
+            {service.category}
+          </div>
+
           {/* Icon */}
-          <div className={`p-4 rounded-xl mb-6 bg-gradient-to-br from-white/5 to-white/0 border border-white/10 group-hover:border-neon-cyan/30 transition-colors`}>
+          <div className="p-4 rounded-xl mb-6 bg-gradient-to-br from-white/5 to-white/0 border border-white/10 group-hover:border-neon-cyan/30 transition-colors w-fit">
             <service.icon size={32} className="text-neon-cyan" />
           </div>
 
           {/* Title & Desc */}
           <h3 className="font-sans text-2xl font-bold mb-3 tracking-tighter uppercase">{service.title}</h3>
-          <p className="font-mono text-xs text-white/50 leading-relaxed mb-6">
+          <p className="font-mono text-xs text-white/50 leading-relaxed mb-8 line-clamp-3">
             {service.desc}
           </p>
 
           <div className="mt-auto pt-6 border-t border-white/5 w-full flex items-center justify-between">
             <span className="font-mono text-neon-cyan text-sm">{service.price}</span>
             <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-2 font-mono text-[10px] tracking-widest text-white/40 hover:text-white transition-colors uppercase group/btn"
+              className="flex items-center gap-2 font-mono text-[10px] tracking-widest text-white/40 group-hover:text-neon-cyan transition-colors uppercase"
             >
-              {isExpanded ? 'Ver Menos' : 'Ver Más'}
-              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
-                <ChevronDown size={14} />
-              </motion.div>
+              Leer Más <ArrowDown size={14} className="-rotate-90 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
-
-          {/* Expandable Content */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden w-full"
-              >
-                <div className="pt-8 space-y-4">
-                  {service.bullets.map((bullet, i) => (
-                    <div key={i} className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-neon-cyan mt-0.5 shrink-0" />
-                      <span className="font-mono text-[11px] text-white/70">{bullet}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </motion.div>
     </motion.div>
@@ -706,63 +702,80 @@ const ServiceCard = ({ service, index }: ServiceProps) => {
 };
 
 /**
- * Services Section Component
+ * Services Section Component with Filtering and Modal
  */
 const ServicesSection = () => {
+  const [filter, setFilter] = useState('Todos');
+  const [selectedService, setSelectedService] = useState<any>(null);
+
+  const categories = ['Todos', 'AI Automation', 'Content Creation', 'Branding'];
+
   const services = [
     {
       title: "Automatización con IA",
-      desc: "Optimizamos tus procesos operativos mediante agentes autónomos y flujos de trabajo inteligentes que reducen costos y errores humanos.",
+      category: "AI Automation",
+      desc: "Optimizamos tus procesos operativos mediante agentes autónomos y flujos de trabajo inteligentes que reducen costos.",
+      fullDesc: "Nuestra solución de automatización no solo implementa herramientas, sino que diseña un ecosistema donde la IA se encarga de las tareas repetitivas. Desde la gestión de leads hasta el análisis predictivo de datos, construimos infraestructuras que escalan sin incrementar tus costos fijos.",
       price: "Desde $1,200",
       icon: Bot,
-      color: "#ff6b00",
       bullets: [
         "Desarrollo de Agentes Personalizados",
         "Integración de LLMs en flujos internos",
         "Chatbots de Atención al Cliente Pro",
         "Data Scraping y Análisis Predictivo"
-      ]
+      ],
+      caseStudy: "Empresa de logística redujo un 40% su tiempo de respuesta tras implementar nuestro agente automatizado de atención."
     },
     {
-      title: "Contenido Digital que Vende",
-      desc: "Estrategias de contenido viral basadas en psicología del consumidor y data, diseñadas para convertir seguidores en clientes fieles.",
+      title: "Contenido Digital Viral",
+      category: "Content Creation",
+      desc: "Estrategias de contenido viral basadas en psicología del consumidor y data, diseñadas para convertir seguidores en clientes.",
+      fullDesc: "Creamos piezas de contenido que no solo obtienen vistas, sino que construyen comunidad. Utilizamos técnicas de 'triggering' psicológico y edición dinámica para asegurar que tu mensaje resuene en el ruido digital actual.",
       price: "Desde $800",
       icon: Smartphone,
-      color: "#7b61ff",
       bullets: [
         "Guiones de Alto Impacto para Reels/TikTok",
         "Copywriting Persuasivo (Storyselling)",
         "Planificación de Calendarios Mensuales",
         "Monitorización de Tendencias en Tiempo Real"
-      ]
+      ],
+      caseStudy: "Marca de suplementos alcanzó los 2M de impresiones en su primer mes de estrategia con nuestro equipo."
     },
     {
       title: "Estrategia de Marca Personal",
-      desc: "Construimos tu autoridad digital. Pasas de ser uno más a convertirte en el referente de tu industria mediante un ecosistema sólido.",
+      category: "Branding",
+      desc: "Construimos tu autoridad digital. Pasas de ser uno más a convertirte en el referente de tu industria mediante un ecosistema.",
+      fullDesc: "Tu marca personal es tu activo más valioso. Definimos tu voz única y proyectamos tu experiencia de manera cohesiva en todas las plataformas para que las oportunidades lleguen a ti, en lugar de tú buscarlas.",
       price: "Desde $2,500",
       icon: Target,
-      color: "#ff6b00",
       bullets: [
         "Auditoría Completa de Presencia Digital",
         "Definición de Propuesta de Valor Única",
         "Diseño de Identidad Visual Disruptiva",
         "Estrategia de Networking y RRPP Digitales"
-      ]
+      ],
+      caseStudy: "CEO de Fintech cuadruplicó sus solicitudes de asesoría tras 3 meses de reposicionamiento de marca."
     },
     {
-      title: "Producción con IA",
-      desc: "Videos e imágenes de calidad cinematográfica generados con las herramientas más avanzadas de IA generativa para reducir tiempos.",
+      title: "Producción Multimedia IA",
+      category: "Content Creation",
+      desc: "Videos e imágenes de calidad cinematográfica generados con las herramientas más avanzadas de IA generativa.",
+      fullDesc: "Olvídate de las producciones costosas de meses. Usamos herramientas de generación de video de última generación para crear contenido comercial de alta gama en una fracción del tiempo tradicional.",
       price: "Desde $1,500",
       icon: Video,
-      color: "#7b61ff",
       bullets: [
         "Generación de Video SORA / Runway Gen-3",
         "Avatar Digitales Hiperrealistas",
         "Post-producción Automatizada",
         "Diseño de Assets con Midjourney 6.1"
-      ]
+      ],
+      caseStudy: "Campaña publicitaria realizada íntegramente con IA con un ahorro del 70% en presupuesto de producción."
     }
   ];
+
+  const filteredServices = filter === 'Todos' 
+    ? services 
+    : services.filter(s => s.category === filter);
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -772,7 +785,7 @@ const ServicesSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
-    <section ref={sectionRef} id="servicios" className="relative py-32 overflow-hidden">
+    <section ref={sectionRef} id="servicios" className="relative py-32 overflow-hidden bg-cyber-dark">
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y }} className="absolute inset-0 w-full h-[130%] -top-[15%]">
           <video 
@@ -781,43 +794,159 @@ const ServicesSection = () => {
             loop 
             muted 
             playsInline 
+            preload="none"
             className="w-full h-full object-cover opacity-100"
           >
             <source src="https://ik.imagekit.io/x8axvbbz3/secciones%20naranja.mp4" type="video/mp4" />
           </video>
         </motion.div>
-        <div className="absolute inset-0 bg-[#0c0c14]/10"></div>
+        <div className="absolute inset-0 bg-cyber-dark/80 backdrop-blur-3xl"></div>
       </div>
+
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
-        >
-          <div>
-            <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Capacidades</span>
-            <h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none">
-              Arquitectura de <br /> <span className="text-white/40">Soluciones IA</span>
-            </h2>
-          </div>
-          <div className="md:w-1/3">
-            <p className="font-mono text-xs text-white/40 leading-relaxed">
-              No implementamos tecnología por moda. Diseñamos sistemas que generan ROIs tangibles fusionando creatividad humana y potencia de silicio.
-            </p>
-          </div>
-        </motion.div>
+        <header className="mb-20 text-center">
+          <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">Portafolio</span>
+          <h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none mb-12">
+            Servicios <span className="text-white/40">Estratégicos</span>
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 relative z-10">
-          {services.map((service, idx) => (
-            <ServiceCard key={idx} service={service} index={idx} />
-          ))}
-        </div>
+          {/* Filters */}
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-6 py-2 font-mono text-[10px] tracking-widest uppercase transition-all border border-white/5 rounded-full ${
+                  filter === cat ? 'bg-neon-cyan text-cyber-dark border-neon-cyan shadow-[0_0_20px_rgba(0,245,196,0.2)]' : 'hover:border-neon-cyan/50 text-white/50'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </header>
+
+        <motion.div 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service, idx) => (
+              <ServiceCard 
+                key={service.title} 
+                service={service} 
+                index={idx} 
+                onClick={() => setSelectedService(service)}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
 
-      {/* Decorative background text */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 font-sans text-[20vw] font-black text-white/[0.02] pointer-events-none select-none uppercase tracking-tighter leading-none -z-0">
-        Services
+      {/* Service Detail Modal */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-md"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="noise-bg border border-neon-cyan/20 w-full max-w-4xl p-8 md:p-12 relative overflow-y-auto max-h-[90vh]"
+            >
+              <button 
+                onClick={() => setSelectedService(null)}
+                className="absolute top-8 right-8 text-white/40 hover:text-white transition-colors"
+              >
+                <ArrowDown className="rotate-45" size={24} />
+              </button>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                  <div className="font-mono text-neon-cyan text-[10px] tracking-[0.3em] uppercase mb-6">{selectedService.category}</div>
+                  <h3 className="font-sans text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8 leading-tight">
+                    {selectedService.title}
+                  </h3>
+                  <p className="font-mono text-sm text-white/60 leading-relaxed mb-10 text-pretty">
+                    {selectedService.fullDesc}
+                  </p>
+                  
+                  <div className="space-y-4 mb-12">
+                    {selectedService.bullets.map((b: string, i: number) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <CheckCircle2 size={16} className="text-neon-cyan" />
+                        <span className="font-mono text-xs text-white/80">{b}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="p-6 bg-white/5 border border-white/5 rounded-xl mb-10">
+                    <span className="font-mono text-[9px] text-neon-cyan uppercase block mb-3 opacity-60">Resultados Obtenidos</span>
+                    <p className="font-mono text-xs italic text-white/70">"{selectedService.caseStudy}"</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between">
+                  <div className="aspect-square w-full rounded-2xl bg-linear-to-br from-neon-cyan/10 to-cyber-purple/10 border border-white/10 flex items-center justify-center mb-12 overflow-hidden relative group">
+                     <selectedService.icon size={120} className="text-neon-cyan/20 animate-pulse relative z-10" />
+                     {/* Decorative background for the modal icon area */}
+                     <div className="absolute inset-0 bg-radial from-neon-cyan/5 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+                  </div>
+
+                  <div className="flex flex-col gap-4">
+                    <div className="flex justify-between items-end">
+                      <span className="font-mono text-xs text-white/30 uppercase">Inversión Estimada</span>
+                      <span className="font-sans text-4xl font-black text-neon-cyan">{selectedService.price}</span>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        setSelectedService(null);
+                        document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full py-5 bg-neon-cyan text-cyber-dark font-mono text-[10px] tracking-[0.4em] font-bold uppercase transition-transform hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_rgba(0,245,196,0.3)]"
+                    >
+                      Solicitar Consultoría
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
+/**
+ * Satisfied Clients Section
+ */
+const ClientsSection = () => {
+  const clients = [
+    { name: "Brand One", icon: Bot },
+    { name: "Global Tech", icon: Smartphone },
+    { name: "Creative Studio", icon: Target },
+    { name: "Future Vision", icon: Video },
+    { name: "Nexus AI", icon: Bot },
+    { name: "Digital Edge", icon: Smartphone },
+  ];
+
+  return (
+    <section className="py-20 border-b border-white/5 bg-[#0c0c14]/50">
+      <div className="container mx-auto px-6 text-center">
+        <span className="font-mono text-white/20 text-[9px] tracking-[0.3em] uppercase mb-10 block">Con la confianza de referentes industriales</span>
+        <div className="flex flex-wrap justify-center gap-10 md:gap-20 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
+           {clients.map((client, i) => (
+             <div key={i} className="flex items-center gap-2 group cursor-help transition-all hover:scale-110 hover:opacity-100">
+               <client.icon size={20} className="text-white group-hover:text-neon-cyan transition-colors" />
+               <span className="font-mono text-[10px] font-bold tracking-widest text-white group-hover:text-white uppercase">{client.name}</span>
+             </div>
+           ))}
+        </div>
       </div>
     </section>
   );
@@ -1311,6 +1440,8 @@ export default function App() {
       <div className="reveal">
         <ServicesSection />
       </div>
+
+      <ClientsSection />
       
       {/* Results Section */}
       <div className="reveal relative z-10">
