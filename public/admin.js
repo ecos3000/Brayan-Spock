@@ -135,7 +135,8 @@
                 <!-- Sections map here -->
             </div>
             <div style="padding:20px;">
-                <button id="export-dash" class="btn-dash btn-primary" style="width:100%; margin-bottom:10px;">GENERAR HTML FINAL</button>
+                <button id="apply-dash" class="btn-dash btn-primary" style="width:100%; margin-bottom:10px; background: #00f5c4; color: #050508;">APLICAR CAMBIOS</button>
+                <button id="export-dash" class="btn-dash btn-outline" style="width:100%; margin-bottom:10px;">GENERAR HTML FINAL</button>
                 <div style="display:flex; gap:10px;">
                     <button id="close-dash" class="btn-dash btn-outline" style="flex:1;">CERRAR</button>
                     <button id="logout-dash" class="btn-dash btn-danger">SALIR</button>
@@ -459,6 +460,25 @@
     };
 
     document.getElementById('close-dash').onclick = closeDash;
+    
+    document.getElementById('apply-dash').onclick = () => {
+        const btn = document.getElementById('apply-dash');
+        const originalText = btn.textContent;
+        btn.textContent = '✓ CAMBIOS APLICADOS';
+        btn.style.background = '#0affd2';
+        
+        // Simular persistencia o simplemente confirmar
+        console.log("Cambios aplicados a la sesión actual");
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '#00f5c4';
+        }, 2000);
+        
+        // Opcional: Cerrar el dash para ver cambios
+        // closeDash();
+    };
+
     document.getElementById('logout-dash').onclick = () => {
         sessionStorage.removeItem('admin_auth');
         window.location.reload();
