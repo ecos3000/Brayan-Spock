@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TimelineSection } from './Home';
+import Proceso from '../components/Proceso';
 
 export default function Blog() {
   return (
@@ -13,7 +13,7 @@ export default function Blog() {
            Próximamente compartiremos las últimas novedades, tutoriales y estrategias sobre el ecosistema de Inteligencia Artificial.
          </p>
        </div>
-       <TimelineSection />
+       <Proceso />
     </div>
   );
 }

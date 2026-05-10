@@ -21,109 +21,22 @@ const Tiktok = ({ size = 18, className = "" }: { size?: number, className?: stri
   </svg>
 );
 
-// --- Components (Extracted from App.tsx) ---
+// --- Components ---
 
-const TimelineStep = ({ step, index }: { key?: React.Key, step: any, index: number }) => {
+const Reveal = ({ children, width = "w-full" }: { children: React.ReactNode, width?: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
   return (
-    <div className="relative flex flex-col items-center flex-1 group">
-      <motion.div 
-        initial={{ opacity: 0, y: 10, scale: 0.9 }}
-        whileHover={{ opacity: 1, y: -10, scale: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="absolute bottom-20 w-48 p-4 noise-bg border border-neon-cyan/20 rounded-lg pointer-events-none z-20 hidden lg:block"
-      >
-        <div className="font-mono text-[10px] text-neon-cyan mb-2 tracking-widest uppercase">{step.subtitle}</div>
-        <p className="font-mono text-[11px] text-white/60 leading-relaxed">
-          {step.description}
-        </p>
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 noise-bg border-r border-b border-neon-cyan/20 rotate-45" />
-      </motion.div>
-
+    <div ref={ref} className={`relative ${width} overflow-hidden`}>
       <motion.div
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5 + index * 0.1, type: "spring", stiffness: 200 }}
-        className="relative z-10 w-12 h-12 rounded-full border-2 border-white/10 noise-bg flex items-center justify-center font-sans font-bold group-hover:border-neon-cyan group-hover:shadow-[0_0_20px_rgba(255,107,0,0.3)] transition-all duration-300 pointer-events-auto cursor-help"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <span className="group-hover:text-neon-cyan transition-colors">{index + 1}</span>
+        {children}
       </motion.div>
-
-      <div className="mt-6 text-center">
-        <h4 className="font-sans text-sm md:text-md font-bold tracking-tighter uppercase group-hover:text-neon-cyan transition-colors">
-          {step.title}
-        </h4>
-      </div>
     </div>
-  );
-};
-
-export const TimelineSection = () => {
-  const steps = [
-    { title: "Diagnóstico", subtitle: "48H AUDIT", description: "Analizamos tu presencia digital, competencia y cuellos de botella mediante auditoría manual y herramientas de IA." },
-    { title: "Estrategia", subtitle: "CUSTOM BLUEPRINT", description: "Diseñamos un plan de contenido y automatización a medida, alineado con tus objetivos de escala reales." },
-    { title: "Producción", subtitle: "AI WORKFLOW", description: "Ejecutamos con tecnología de vanguardia para crear piezas de alto impacto en una fracción del tiempo tradicional." },
-    { title: "Lanzamiento", subtitle: "OPTIMIZATION", description: "Publicamos bajo una estrategia de distribución omnicanal, midiendo retención y CTR para ajustar el enfoque." },
-    { title: "Escala", subtitle: "AUTOMATION", description: "Sistematizamos lo que funciona para que tu marca crezca de forma orgánica y recurrente sin sacrificar tu tiempo." },
-  ];
-
-  return (
-    <section id="metodo" className="relative py-32 bg-cyber-dark overflow-hidden border-b border-white/5">
-      <div className="container mx-auto px-6 relative z-10">
-        <header className="mb-24 text-center max-w-3xl mx-auto">
-          <span className="font-mono text-neon-cyan text-xs tracking-[0.4em] uppercase mb-4 block">El Método</span>
-          <h2 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tighter uppercase leading-none">
-            Cómo <span className="text-white/40">Trabajo</span>
-          </h2>
-        </header>
-
-        <div className="hidden lg:block relative py-20 px-10">
-          <div className="absolute top-1/2 left-0 w-full h-px bg-white/5 -translate-y-1/2" />
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute top-1/2 left-0 w-full h-[2px] bg-linear-to-r from-neon-cyan via-cyber-purple to-neon-cyan -translate-y-1/2 origin-left z-0"
-          />
-          <div className="relative flex justify-between gap-4">
-            {steps.map((step, idx) => (
-              <TimelineStep key={idx} step={step} index={idx} />
-            ))}
-          </div>
-        </div>
-
-        <div className="lg:hidden flex flex-col gap-12 relative px-4">
-          <div className="absolute top-0 left-8 w-px h-full bg-white/5" />
-          <motion.div 
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute top-0 left-8 w-[2px] h-full bg-linear-to-b from-neon-cyan via-cyber-purple to-neon-cyan origin-top z-0"
-          />
-          {steps.map((step, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="flex items-start gap-8 relative z-10"
-            >
-              <div className="w-8 h-8 rounded-full noise-bg border border-white/20 flex items-center justify-center font-mono text-xs shrink-0 bg-cyber-dark">
-                {idx + 1}
-              </div>
-              <div className="flex-1">
-                <h4 className="font-sans text-xl font-bold uppercase tracking-tighter text-white mb-2">{step.title}</h4>
-                <div className="font-mono text-[10px] text-neon-cyan mb-3 tracking-widest uppercase">{step.subtitle}</div>
-                <p className="font-mono text-xs text-white/40 leading-relaxed">{step.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 };
 
@@ -350,8 +263,8 @@ const Counter = ({ value, suffix }: { value: number, suffix: string }) => {
   }, [isInView, value]);
   return (
     <div ref={ref} className="flex flex-col items-center">
-      <span className={`font-sans text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-extrabold tracking-tighter tabular-nums transition-all duration-700 leading-none ${complete ? 'counter-glow text-white' : 'text-white/70'}`} style={{ textShadow: complete ? '0 0 15px rgba(255, 107, 0, 0.4)' : 'none' }}>
-        {displayValue.toLocaleString()}<span className="text-neon-cyan text-[0.5em] ml-1 align-baseline">{suffix}</span>
+      <span className={`font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter tabular-nums transition-all duration-700 leading-none ${complete ? 'counter-glow text-white' : 'text-white/70'}`} style={{ textShadow: complete ? '0 0 15px rgba(255, 107, 0, 0.4)' : 'none' }}>
+        {displayValue.toLocaleString()}<span className="text-neon-cyan text-[0.4em] ml-1 align-baseline">{suffix}</span>
       </span>
     </div>
   );
@@ -365,14 +278,15 @@ export const ResultsSection = () => {
     { value: 3, suffix: "+", label: "AÑOS CREANDO CONTENIDO" },
   ];
   return (
-    <section id="resultados" className="relative py-24 md:py-32 bg-[#0c0c14] grid-bg overflow-hidden border-y border-white/5">
+    <section id="resultados" className="relative py-24 md:py-32 bg-[#0c0c14] overflow-hidden border-y border-white/5">
+      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-20 md:gap-12 lg:gap-0 items-start">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-16 sm:gap-y-20 md:gap-12 lg:gap-0 items-start">
           {metrics.map((metric, idx) => (
-            <div key={idx} className="relative flex flex-col items-center text-center px-4">
+            <div key={idx} className="relative flex flex-col items-center text-center px-2 sm:px-4">
               {idx < metrics.length - 1 && <div className="hidden lg:block absolute top-1/2 -right-px -translate-y-1/2 w-px h-16 bg-linear-to-b from-transparent via-white/10 to-transparent" />}
-              <div className="min-h-[1em] flex items-center justify-center"><Counter value={metric.value} suffix={metric.suffix} /></div>
-              <span className="mt-6 font-mono text-[10px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[180px] relative z-10">{metric.label}</span>
+              <div className="flex items-center justify-center"><Counter value={metric.value} suffix={metric.suffix} /></div>
+              <span className="mt-4 sm:mt-6 font-mono text-[8px] sm:text-[10px] md:text-xs tracking-[0.2em] text-white/50 uppercase max-w-[150px] sm:max-w-[180px] relative z-10 leading-tight">{metric.label}</span>
             </div>
           ))}
         </div>
@@ -532,9 +446,30 @@ export const ParticleBackground = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 -z-10 pointer-events-none" />;
 };
 
-export const GlitchText = ({ text }: { text: string }) => (
-  <h1 className="relative font-sans text-4xl sm:text-5xl md:text-7xl lg:text-[140px] font-black tracking-tighter leading-none mb-4 uppercase select-none glitch-active" data-text={text} id="glitch-title" style={{ textShadow: '2px 0 #ff6b00, -2px 0 #ff00c1' }}><span className="relative z-10">{text}</span></h1>
-);
+export const GlitchText = ({ text }: { text: string }) => {
+  const [isGlitching, setIsGlitching] = useState(false);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsGlitching(true);
+      setTimeout(() => setIsGlitching(false), 200);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.h1 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`relative font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter leading-none mb-4 uppercase select-none ${isGlitching ? 'glitch-active' : ''}`} 
+      data-text={text} 
+      id="glitch-title" 
+      style={{ textShadow: '2px 0 #00f5c4, -2px 0 #7b61ff' }}
+    >
+      <span className="relative z-10">{text}</span>
+    </motion.h1>
+  );
+};
 
 export const Typewriter = ({ text }: { text: string }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -590,13 +525,13 @@ export default function Home() {
         <div className="absolute inset-0 z-[1] pointer-events-none opacity-20"><GradientMesh /></div>
         <div className="absolute inset-0 z-[2] pointer-events-none opacity-20"><ParticleBackground /></div>
 
-        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pointer-events-none pt-28 sm:pt-32 lg:pt-0">
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left pointer-events-auto max-w-xl mx-auto lg:mx-0">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}><GlitchText text="ADAN_CB90" /></motion.div>
+        <div className="container mx-auto px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 pt-28 sm:pt-32 lg:pt-0">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl mx-auto lg:mx-0">
+            <GlitchText text="ADAN_CB90" />
             <div className="mt-4 mb-8 lg:mb-12"><Typewriter text="IA Disruptiva · Marca Personal" /></div>
-            <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-12">
-              <Link to="/contacto">
-                <MagneticButton>EMPIEZA AHORA</MagneticButton>
+            <div className="flex flex-col items-center lg:items-start gap-8 lg:gap-12 w-full">
+              <Link to="/contacto" className="w-full sm:w-auto">
+                <MagneticButton className="w-full sm:w-auto">EMPIEZA AHORA</MagneticButton>
               </Link>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }} className="flex flex-wrap justify-center lg:justify-start items-center gap-4 lg:gap-6 text-white/40">
                 <div className="flex items-center gap-2 group cursor-pointer hover:text-neon-cyan transition-colors whitespace-nowrap"><Mail size={16} /><span>contact@adan-cb90.io</span></div>
@@ -609,12 +544,12 @@ export default function Home() {
         <ScrollIndicator />
       </section>
 
-      <div className="reveal"><ServicesSection /></div>
+      <Reveal><ServicesSection /></Reveal>
       <ClientsSection />
-      <div className="reveal relative z-10"><ResultsSection /></div>
-      <div className="reveal"><Proceso /></div>
-      <div className="reveal"><TestimonialsSection /></div>
-      <div className="reveal"><ContactSection /></div>
+      <Reveal><ResultsSection /></Reveal>
+      <Reveal><Proceso /></Reveal>
+      <Reveal><TestimonialsSection /></Reveal>
+      <Reveal><ContactSection /></Reveal>
     </div>
   );
 }

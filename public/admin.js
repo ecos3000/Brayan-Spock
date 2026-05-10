@@ -194,6 +194,12 @@
             if (name.includes('sobre-mi')) icon = '👤';
             return `<div class="nav-item" data-sec="${name}"><span>${icon}</span> ${name.replace(/-/g, ' ')}</div>`;
         }).join('');
+
+        navHtml += `
+            <div class="nav-item" id="nav-security" style="border-top:1px solid rgba(255,255,255,0.05); margin-top:10px; padding-top:15px; color: #ff3d6b;">
+                <span>🔐</span> SEGURIDAD Y CLAVE
+            </div>
+        `;
         
         nav.innerHTML = navHtml;
 
@@ -202,9 +208,43 @@
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 item.classList.add('active');
                 if (item.id === 'nav-global') loadGlobal();
+                else if (item.id === 'nav-security') loadSecurity();
                 else loadSection(item.dataset.sec);
             };
         });
+    }
+
+    function loadSecurity() {
+        activeSectionId = 'security';
+        document.getElementById('active-sec-name').textContent = `GESTIÓN DE SEGURIDAD`;
+        const container = document.getElementById('dash-content');
+        container.innerHTML = `
+            <div class="section-group">
+                <div class="section-title">Cambiar Contraseña de Acceso</div>
+                <div class="edit-grid">
+                    <div class="edit-card" style="border-color: #ff3d6b;">
+                        <label>Contraseña Actual / Nueva</label>
+                        <p style="font-size:10px; opacity:0.5; margin-bottom:15px;">Introduce la nueva clave para acceder a este panel. El cambio se aplicará inmediatamente en esta sesión.</p>
+                        <input type="text" id="security-pwd-input" value="${ADMIN_PASSWORD}" style="font-size:20px; text-align:center; letter-spacing:0.2em; border-color: #ff3d6b;">
+                        <button class="btn-dash btn-danger mt-20" style="width:100%; border-radius: 0; padding: 15px;" onclick="updatePassword('security-pwd-input')">ACTUALIZAR CLAVE DE ACCESO</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-group">
+                <div class="section-title">Estado del Sistema</div>
+                <div class="edit-grid">
+                    <div class="edit-card">
+                        <label>Privilegios</label>
+                        <p style="font-size:12px; color: #00f5c4;">NIVEL: ADMINISTRADOR_ROOT</p>
+                    </div>
+                    <div class="edit-card">
+                        <label>Sesión</label>
+                        <p style="font-size:12px; opacity:0.7;">ACTIVA (LocalStorage Persistence)</p>
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
     function loadGlobal() {
@@ -242,17 +282,6 @@
             </div>
             
             <div class="section-group">
-                <div class="section-title">Ajustes de Seguridad</div>
-                <div class="edit-grid">
-                    <div class="edit-card">
-                        <label>Contraseña del Panel</label>
-                        <input type="text" id="new-pwd-input" value="${ADMIN_PASSWORD}" placeholder="Nueva contraseña...">
-                        <button class="btn-dash btn-primary mt-20" style="width:100%" onclick="updatePassword()">ACTUALIZAR CONTRASEÑA</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-group">
                 <div class="section-title">Identidad del Sitio</div>
                 <div class="edit-grid">
                     <div class="edit-card">
@@ -264,12 +293,16 @@
         `;
     }
 
-    window.updatePassword = () => {
-        const val = document.getElementById('new-pwd-input').value;
+    window.updatePassword = (inputId) => {
+        const id = inputId || 'new-pwd-input';
+        const input = document.getElementById(id);
+        if (!input) return;
+        const val = input.value;
         if (val.trim()) {
             ADMIN_PASSWORD = val;
             sessionStorage.setItem('admin_pwd', val);
-            alert('CONTRASEÑA ACTUALIZADA (Se guardará en esta sesión)');
+            alert('CONTRASEÑA ACTUALIZADA CON ÉXITO.\n\nNueva clave: ' + val);
+            if (activeSectionId === 'security') loadSecurity();
         }
     };
 
