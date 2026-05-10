@@ -25,31 +25,57 @@
         }
         #admin-dashboard.active { display: grid; }
 
+        @media (max-width: 900px) {
+            #admin-dashboard { grid-template-columns: 1fr; }
+            .dash-sidebar { 
+                position: fixed; left: -100%; top: 0; bottom: 0; width: 280px; 
+                z-index: 10002; transition: left 0.3s ease; 
+            }
+            .dash-sidebar.mobile-active { left: 0; }
+            .dash-main { width: 100vw; }
+            .dash-header { padding: 0 15px; }
+            .dash-scroll { padding: 20px; }
+            .edit-grid { grid-template-columns: 1fr; }
+        }
+
         /* Sidebar Navigation */
         .dash-sidebar {
             background: #0c0c14; border-right: 1px solid rgba(0, 245, 196, 0.1);
-            display: flex; flex-direction: column; padding: 20px 0;
+            display: flex; flex-direction: column; height: 100%;
         }
         .dash-logo {
-            padding: 0 30px 30px; border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-family: 'JetBrains Mono'; font-weight: bold; color: #00f5c4; font-size: 14px;
+            padding: 25px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'JetBrains Mono'; font-weight: bold; color: #00f5c4; font-size: 13px;
         }
-        .dash-nav { flex: 1; padding: 20px 0; overflow-y: auto; }
+        .dash-nav { flex: 1; padding: 15px 0; overflow-y: auto; scrollbar-width: thin; }
         .nav-item {
-            padding: 12px 30px; font-size: 11px; font-family: 'JetBrains Mono';
+            padding: 12px 20px; font-size: 10px; font-family: 'JetBrains Mono';
             text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
             color: rgba(255,255,255,0.5); transition: 0.3s; display: flex; align-items: center; gap: 10px;
         }
         .nav-item:hover { background: rgba(0, 245, 196, 0.05); color: #00f5c4; }
         .nav-item.active { background: rgba(0, 245, 196, 0.1); color: #00f5c4; border-right: 3px solid #00f5c4; }
 
-        /* Main Content */
-        .dash-main { display: flex; flex-direction: column; background: #050508; height: 100vh; }
-        .dash-header {
-            height: 70px; border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
+        /* Action Footer in Sidebar */
+        .dash-actions {
+            padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);
+            background: #0c0c14;
         }
-        .dash-scroll { flex: 1; overflow-y: auto; padding: 40px; }
+
+        /* Main Content */
+        .dash-main { display: flex; flex-direction: column; background: #050508; height: 100vh; min-width: 0; }
+        .dash-header {
+            height: auto; min-height: 70px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 15px 40px; gap: 15px;
+        }
+        .dash-scroll { flex: 1; overflow-y: auto; padding: 40px; scrollbar-width: thin; }
+
+        /* Mobile Menu Button */
+        #mobile-dash-toggle {
+            display: none; width: 40px; height: 40px; align-items: center; justify-content: center;
+            background: #1a1a24; border: 1px solid rgba(0,245,196,0.3); color: #00f5c4; border-radius: 4px; cursor: pointer;
+        }
+        @media (max-width: 900px) { #mobile-dash-toggle { display: flex; } }
 
         /* Cards and Elements */
         .section-group { margin-bottom: 40px; }
@@ -129,13 +155,13 @@
     const dashboard = document.createElement('div');
     dashboard.id = 'admin-dashboard';
     dashboard.innerHTML = `
-        <div class="dash-sidebar">
+        <div class="dash-sidebar" id="sidebar-dash">
             <div class="dash-logo">ADAN_CORE_INTERFACE</div>
             <div class="dash-nav" id="dash-sections">
                 <!-- Sections map here -->
             </div>
-            <div style="padding:20px;">
-                <button id="apply-dash" class="btn-dash btn-primary" style="width:100%; margin-bottom:10px; background: #00f5c4; color: #050508;">APLICAR CAMBIOS</button>
+            <div class="dash-actions">
+                <button id="apply-dash" class="btn-dash btn-primary" style="width:100%; margin-bottom:10px;">APLICAR CAMBIOS</button>
                 <button id="export-dash" class="btn-dash btn-outline" style="width:100%; margin-bottom:10px;">GENERAR HTML FINAL</button>
                 <div style="display:flex; gap:10px;">
                     <button id="close-dash" class="btn-dash btn-outline" style="flex:1;">CERRAR</button>
@@ -145,19 +171,20 @@
         </div>
         <div class="dash-main">
             <div class="dash-header">
-                <div>
-                    <span id="active-sec-name" style="font-family:'JetBrains Mono'; color:#00f5c4; font-size:14px; text-transform:uppercase;">DASHBOARD_HOME</span>
+                <div class="flex-center gap-10">
+                    <button id="mobile-dash-toggle" class="btn-dash btn-outline" style="padding:5px 10px; font-size:16px;">☰</button>
+                    <span id="active-sec-name" style="font-family:'JetBrains Mono'; color:#00f5c4; font-size:12px; text-transform:uppercase;">DASHBOARD_HOME</span>
                 </div>
                 <div class="flex-center gap-10">
-                    <button id="picker-dash" class="btn-dash btn-outline">🔍 SELECCIONAR ELEMENTO</button>
-                    <button id="sync-dash" class="btn-dash btn-outline">🔄 SINCRONIZAR</button>
+                    <button id="picker-dash" class="btn-dash btn-outline">🔍 SELECT</button>
+                    <button id="sync-dash" class="btn-dash btn-outline">🔄 SYNC</button>
                 </div>
             </div>
             <div class="dash-scroll" id="dash-content">
                 <!-- Content here -->
-                <div style="text-align:center; padding-top:100px; opacity:0.3;">
+                <div style="text-align:center; padding-top:100px; opacity:0.1;">
                     <h1 style="font-size:60px; font-weight:900;">ADMIN</h1>
-                    <p style="font-family:'JetBrains Mono';">SELECCIONA UNA SECCIÓN PARA EMPEZAR A EDITAR</p>
+                    <p style="font-family:'JetBrains Mono';">SELECT_SECTION_TO_COMMENCE</p>
                 </div>
             </div>
         </div>
@@ -171,6 +198,10 @@
 
     // --- LOGIC ---
     let activeSectionId = null;
+
+    function toggleMobileSidebar() {
+        document.getElementById('sidebar-dash').classList.toggle('mobile-active');
+    }
 
     function scanSections() {
         const sections = Array.from(document.querySelectorAll('section, header, footer, main'));
@@ -210,6 +241,9 @@
                 if (item.id === 'nav-global') loadGlobal();
                 else if (item.id === 'nav-security') loadSecurity();
                 else loadSection(item.dataset.sec);
+                
+                // Cerrar en móvil tras click
+                if (window.innerWidth <= 900) toggleMobileSidebar();
             };
         });
     }
@@ -511,6 +545,17 @@
     };
 
     document.getElementById('close-dash').onclick = closeDash;
+
+    document.getElementById('mobile-dash-toggle').onclick = (e) => {
+        e.stopPropagation();
+        toggleMobileSidebar();
+    };
+
+    document.querySelector('.dash-main').onclick = () => {
+        if (document.getElementById('sidebar-dash').classList.contains('mobile-active')) {
+            toggleMobileSidebar();
+        }
+    };
     
     document.getElementById('apply-dash').onclick = () => {
         const btn = document.getElementById('apply-dash');
